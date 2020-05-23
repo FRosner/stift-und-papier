@@ -1,4 +1,4 @@
-# Sprouts
+# Sprouts 🌱
 
 Want to join for a game of sprouts, fam?
 
