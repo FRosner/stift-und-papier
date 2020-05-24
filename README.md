@@ -15,6 +15,7 @@ Go through the [NativeScript full setup](https://docs.nativescript.org/angular/s
 ### Commands
 
 - `npm run start` to start the web app 
+- `npm run desktop` to start the desktop app
 - `npm run android` to start the Android app
 - `npm run ios` to start the iOS app
 
