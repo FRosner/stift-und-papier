@@ -1,5 +1,6 @@
 import {Graph} from '@src/app/models/graph';
 import {Vertex} from '@src/app/models/vertex';
+import {Edge} from '@src/app/models/edge';
 
 describe('Graph', () => {
   it('should initialize an empty graph', () => {
@@ -19,4 +20,14 @@ describe('Graph', () => {
     ]);
     expect(graph.edges).toEqual([]);
   });
+
+  it('should add an edge correctly', () => {
+    const graph = Graph.initialize(2)
+        .addEdge(0, 1);
+    const v1 = new Vertex(0);
+    const v2 = new Vertex(1);
+    expect(graph.vertices).toEqual([v1, v2]);
+    expect(graph.edges).toEqual([new Edge(v1, v2)]);
+  });
+
 });

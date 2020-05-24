@@ -12,4 +12,12 @@ export class Graph {
         []
     );
   }
+
+  public addEdge(sourceId: number, targetId: number): Graph {
+    const newEdges = [
+      ...this.edges,
+      new Edge(this.vertices[sourceId], this.vertices[targetId])
+    ];
+    return new Graph(this.vertices, newEdges);
+  }
 }
