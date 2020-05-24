@@ -6,11 +6,7 @@
 
 ## Description
 
-Want to join for a game of sprouts, fam?
-
-## Rules
-
-https://en.wikipedia.org/wiki/Sprouts_(game)
+Want to join for a game of sprouts, fam? Check out the [rules](https://en.wikipedia.org/wiki/Sprouts_(game))!
 
 ## Development
 
