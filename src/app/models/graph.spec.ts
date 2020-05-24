@@ -30,4 +30,16 @@ describe('Graph', () => {
     expect(graph.edges).toEqual([new Edge(v1, v2)]);
   });
 
+  it('should add a vertex correctly', () => {
+    const graph = Graph.initialize(2)
+        .addVertex();
+    expect(graph.vertices).toEqual(
+        [
+          new Vertex(0),
+          new Vertex(1),
+          new Vertex(2)
+        ]
+    );
+  });
+
 });

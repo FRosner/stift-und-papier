@@ -20,4 +20,12 @@ export class Graph {
     ];
     return new Graph(this.vertices, newEdges);
   }
+
+  public addVertex(): Graph {
+    const newVertices = [
+      ...this.vertices,
+      new Vertex(this.vertices.length)
+    ];
+    return new Graph(newVertices, this.edges);
+  }
 }
