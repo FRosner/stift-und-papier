@@ -5,8 +5,8 @@
 >
     <g *ngFor="let vertex of graph.vertices">
         <circle
-                [attr.cx]="vertex.x * svgScalingFactor + (svgScalingFactor / 2)"
-                [attr.cy]="vertex.y * svgScalingFactor + (svgScalingFactor / 2)"
+                [attr.cx]="scalePosition(vertex.x)"
+                [attr.cy]="scalePosition(vertex.y)"
                 [attr.r]="circleWidth"
         ></circle>
     </g>

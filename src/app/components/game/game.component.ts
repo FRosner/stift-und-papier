@@ -20,6 +20,10 @@ export class GameComponent implements OnInit {
     height: this.graph.ySize * this.svgScalingFactor,
   };
 
+  scalePosition(pos: number): number {
+    return pos * this.svgScalingFactor + (this.svgScalingFactor / 2);
+  }
+
   ngOnInit() {
   }
 
