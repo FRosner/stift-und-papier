@@ -1,5 +1,6 @@
 import {Graph} from '@src/app/models/graph';
 import {Vertex} from '@src/app/models/vertex';
+import {Edge} from '@src/app/models/edge';
 
 describe('Graph', () => {
   it('should initialize an empty graph', () => {
@@ -32,7 +33,25 @@ describe('Graph', () => {
       new Vertex(10, 2, 2),
       new Vertex(11, 3, 2),
     ]);
-    expect(graph.edges).toEqual([]);
+    expect(graph.edges).toEqual(jasmine.arrayContaining([
+      new Edge(graph.vertices[0], graph.vertices[1]),
+      new Edge(graph.vertices[1], graph.vertices[2]),
+      new Edge(graph.vertices[2], graph.vertices[3]),
+      new Edge(graph.vertices[0], graph.vertices[4]),
+      new Edge(graph.vertices[1], graph.vertices[5]),
+      new Edge(graph.vertices[2], graph.vertices[6]),
+      new Edge(graph.vertices[3], graph.vertices[7]),
+      new Edge(graph.vertices[4], graph.vertices[5]),
+      new Edge(graph.vertices[5], graph.vertices[6]),
+      new Edge(graph.vertices[6], graph.vertices[7]),
+      new Edge(graph.vertices[4], graph.vertices[8]),
+      new Edge(graph.vertices[5], graph.vertices[9]),
+      new Edge(graph.vertices[6], graph.vertices[10]),
+      new Edge(graph.vertices[7], graph.vertices[11]),
+      new Edge(graph.vertices[8], graph.vertices[9]),
+      new Edge(graph.vertices[9], graph.vertices[10]),
+      new Edge(graph.vertices[10], graph.vertices[11]),
+    ]));
   });
 
 });
