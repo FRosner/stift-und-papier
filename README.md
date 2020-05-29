@@ -1,7 +1,6 @@
 # 📝 Pen & Paper
 
-<a rel="noopener noreferrer" target="_blank" href="https://www.nativescript.org/"><img src="https://img.shields.io/badge/made%20with-NativeScript-blue.svg" alt="made with NativeScript"></a> 
-<a target="_blank" href="https://angular.io/"><img rel="noopener noreferrer" src="https://img.shields.io/badge/made%20with-Angular-blue.svg" alt="made with Angular"></a>
+<a target="_blank" href="https://angular.io/"><img rel="noopener noreferrer" src="https://img.shields.io/badge/made%20with-Angular-blue.svg" alt="made with Angular"></a><a target="_blank" href="https://www.electronjs.org/"><img rel="noopener noreferrer" src="https://img.shields.io/badge/made%20with-Electron-blue.svg" alt="made with Angular"></a><a rel="noopener noreferrer" target="_blank" href="https://www.nativescript.org/"><img src="https://img.shields.io/badge/made%20with-NativeScript-blue.svg" alt="made with NativeScript"></a> 
 
 <img src="https://img.shields.io/badge/runs%20on-macOS-green.svg" alt="runs on macOS"> <img src="https://img.shields.io/badge/runs%20on-Linux-green.svg" alt="runs on Linux"> <img src="https://img.shields.io/badge/runs%20on-Windows-green.svg" alt="runs on Windows"> <img src="https://img.shields.io/badge/runs%20on-iOS-green.svg" alt="runs on iOS"> <img src="https://img.shields.io/badge/runs%20on-Android-green.svg" alt="runs on Android">
 
