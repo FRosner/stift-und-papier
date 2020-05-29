@@ -25,6 +25,13 @@ describe('GameComponent', () => {
     expect(edge.attributes['stroke']).toEqual('#eee');
   });
 
+  it('should change the owner of an edge on click', () => {
+    const edge = fixture.debugElement.query(By.css('#edge-0-0-1-1'));
+    edge.triggerEventHandler('click', null);
+    expect(component.graph.edges.find(e => e.owner === component.player))
+        .toBeTruthy();
+  });
+
   it('should render player edges with the respective color', () => {
     const player = new Player('test', 'blue');
     component.drawEdge(
