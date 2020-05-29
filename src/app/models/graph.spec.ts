@@ -3,13 +3,13 @@ import {Vertex} from '@src/app/models/vertex';
 
 describe('Graph', () => {
   it('should initialize an empty graph', () => {
-    const graph = Graph.initialize(0);
+    const graph = Graph.initialize(0, 0);
     expect(graph.vertices).toEqual([]);
     expect(graph.edges).toEqual([]);
   });
 
-  it('should initialize a non-empty graph', () => {
-    const graph = Graph.initialize(1);
+  it('should initialize a graph with a single node', () => {
+    const graph = Graph.initialize(1, 1);
     expect(graph.vertices).toEqual([
       new Vertex(0, 0, 0),
     ]);
@@ -17,7 +17,7 @@ describe('Graph', () => {
   });
 
   it('should initialize a non-empty graph', () => {
-    const graph = Graph.initialize(4);
+    const graph = Graph.initialize(4, 3);
     expect(graph.vertices).toEqual([
       new Vertex(0, 0, 0),
       new Vertex(1, 1, 0),
@@ -31,10 +31,6 @@ describe('Graph', () => {
       new Vertex(9, 1, 2),
       new Vertex(10, 2, 2),
       new Vertex(11, 3, 2),
-      new Vertex(12, 0, 3),
-      new Vertex(13, 1, 3),
-      new Vertex(14, 2, 3),
-      new Vertex(15, 3, 3),
     ]);
     expect(graph.edges).toEqual([]);
   });
