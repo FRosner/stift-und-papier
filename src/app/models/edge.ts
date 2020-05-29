@@ -8,4 +8,9 @@ export class Edge {
   public static initialize(source: Vertex, target: Vertex): Edge {
     return new Edge(source, target, null);
   }
+
+  public static isOwned(edge: Edge): boolean {
+    return edge.owner !== null;
+  }
+
 }

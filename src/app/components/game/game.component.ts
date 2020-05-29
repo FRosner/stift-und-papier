@@ -13,7 +13,7 @@ export class GameComponent implements OnInit {
   constructor() {
   }
 
-  graph = Graph.initialize(4, 4);
+  graph = Graph.initialize(4, 3);
 
   svgScalingFactor = 25;
   viewBox = {
@@ -28,7 +28,12 @@ export class GameComponent implements OnInit {
   }
 
   drawEdge(edge: Edge, player: Player) {
-    edge.owner = player;
+    if (!Edge.isOwned(edge)) {
+      if (this.graph.findPath(edge.source, edge.target)) {
+        window.alert('Loop Loop');
+      }
+      edge.owner = player;
+    }
   }
 
   ngOnInit() {
