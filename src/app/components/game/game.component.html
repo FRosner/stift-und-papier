@@ -1,1 +1,13 @@
-<sprouts-spot></sprouts-spot>
+<svg
+        width="100vw"
+        height="100vh"
+        [attr.viewBox]="'0 0 ' + viewBox.width + ' ' + viewBox.height"
+>
+    <g *ngFor="let vertex of graph.vertices">
+        <circle
+                [attr.cx]="vertex.x * svgScalingFactor + (svgScalingFactor / 2)"
+                [attr.cy]="vertex.y * svgScalingFactor + (svgScalingFactor / 2)"
+                [attr.r]="circleWidth"
+        ></circle>
+    </g>
+</svg>

@@ -24,6 +24,13 @@
     },
     "eofline": true,
     "forin": true,
+    "trailing-comma": [
+      true,
+      {
+        "multiline": "always",
+        "singleline": "never"
+      }
+    ],
     "import-blacklist": [
       true,
       "rxjs/Rx"

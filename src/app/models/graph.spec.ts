@@ -1,6 +1,5 @@
 import {Graph} from '@src/app/models/graph';
 import {Vertex} from '@src/app/models/vertex';
-import {Edge} from '@src/app/models/edge';
 
 describe('Graph', () => {
   it('should initialize an empty graph', () => {
@@ -10,36 +9,34 @@ describe('Graph', () => {
   });
 
   it('should initialize a non-empty graph', () => {
-    const graph = Graph.initialize(5);
+    const graph = Graph.initialize(1);
     expect(graph.vertices).toEqual([
-      new Vertex(0),
-      new Vertex(1),
-      new Vertex(2),
-      new Vertex(3),
-      new Vertex(4)
+      new Vertex(0, 0, 0),
     ]);
     expect(graph.edges).toEqual([]);
   });
 
-  it('should add an edge correctly', () => {
-    const graph = Graph.initialize(2)
-        .addEdge(0, 1);
-    const v1 = new Vertex(0);
-    const v2 = new Vertex(1);
-    expect(graph.vertices).toEqual([v1, v2]);
-    expect(graph.edges).toEqual([new Edge(v1, v2)]);
-  });
-
-  it('should add a vertex correctly', () => {
-    const graph = Graph.initialize(2)
-        .addVertex();
-    expect(graph.vertices).toEqual(
-        [
-          new Vertex(0),
-          new Vertex(1),
-          new Vertex(2)
-        ]
-    );
+  it('should initialize a non-empty graph', () => {
+    const graph = Graph.initialize(4);
+    expect(graph.vertices).toEqual([
+      new Vertex(0, 0, 0),
+      new Vertex(1, 1, 0),
+      new Vertex(2, 2, 0),
+      new Vertex(3, 3, 0),
+      new Vertex(4, 0, 1),
+      new Vertex(5, 1, 1),
+      new Vertex(6, 2, 1),
+      new Vertex(7, 3, 1),
+      new Vertex(8, 0, 2),
+      new Vertex(9, 1, 2),
+      new Vertex(10, 2, 2),
+      new Vertex(11, 3, 2),
+      new Vertex(12, 0, 3),
+      new Vertex(13, 1, 3),
+      new Vertex(14, 2, 3),
+      new Vertex(15, 3, 3),
+    ]);
+    expect(graph.edges).toEqual([]);
   });
 
 });
