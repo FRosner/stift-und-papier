@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Graph} from '@src/app/models/graph';
 import {Player} from '@src/app/models/player';
 import {Edge} from '@src/app/models/edge';
+import {Square} from '@src/app/models/square';
 
 @Component({
   selector: 'pnp-game',
@@ -14,6 +15,7 @@ export class GameComponent implements OnInit {
   }
 
   graph = Graph.initialize(4, 3);
+  squares = Square.fromGraph(this.graph);
 
   svgScalingFactor = 25;
   viewBox = {

@@ -22,7 +22,7 @@ describe('GameComponent', () => {
 
   it('should render ownerless edges grey', () => {
     const edge = fixture.debugElement.query(By.css('#edge-0-0-1-1'));
-    expect(edge.attributes['stroke']).toEqual('#eee');
+    expect(edge.attributes['stroke']).toEqual('#ccc');
   });
 
   it('should change the owner of an edge on click', () => {
