@@ -4,7 +4,6 @@ import {NativeScriptModule} from 'nativescript-angular/nativescript.module';
 import {AppRoutingModule} from '@src/app/app-routing.module';
 import {AppComponent} from '@src/app/app.component';
 import {HomeComponent} from '@src/app/components/home/home.component';
-import {SpotComponent} from '@src/app/components/spot/spot.component';
 import {GameComponent} from '@src/app/components/game/game.component';
 
 
@@ -18,7 +17,6 @@ import {GameComponent} from '@src/app/components/game/game.component';
   declarations: [
     AppComponent,
     HomeComponent,
-    SpotComponent,
     GameComponent,
   ],
   imports: [
@@ -27,7 +25,7 @@ import {GameComponent} from '@src/app/components/game/game.component';
   ],
   providers: [],
   bootstrap: [AppComponent],
-  schemas: [NO_ERRORS_SCHEMA]
+  schemas: [NO_ERRORS_SCHEMA],
 })
 export class AppModule {
 }

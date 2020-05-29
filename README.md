@@ -1,4 +1,4 @@
-# 🌱 Sprouts
+# 📝 Pen & Paper
 
 <a rel="noopener noreferrer" target="_blank" href="https://www.nativescript.org/"><img src="https://img.shields.io/badge/made%20with-NativeScript-blue.svg" alt="made with NativeScript"></a> 
 <a target="_blank" href="https://angular.io/"><img rel="noopener noreferrer" src="https://img.shields.io/badge/made%20with-Angular-blue.svg" alt="made with Angular"></a>
@@ -7,7 +7,7 @@
 
 ## Description
 
-Want to join for a game of sprouts, fam? Check out the [rules](https://en.wikipedia.org/wiki/Sprouts_(game))!
+Want to join for a game, fam?
 
 ## Development
 

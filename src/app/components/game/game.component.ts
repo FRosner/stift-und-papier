@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Graph} from '@src/app/models/graph';
 
 @Component({
-  selector: 'sprouts-game',
+  selector: 'pnp-game',
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css'],
 })

@@ -1,7 +1,7 @@
 {
-  "name": "sprouts",
+  "name": "pnp",
   "nativescript": {
-    "id": "org.nativescript.sprouts",
+    "id": "org.nativescript.pnp",
     "tns-ios": {
       "version": "6.5.0"
     }
