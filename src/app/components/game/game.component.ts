@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Graph} from '@src/app/models/graph';
+import {Edge} from '@src/app/models/edge';
 
 @Component({
   selector: 'pnp-game',
@@ -24,6 +25,7 @@ export class GameComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.graph.edges.push(new Edge(this.graph.vertices[0], this.graph.vertices[1]));
   }
 
 }

@@ -7,7 +7,16 @@
         <circle
                 [attr.cx]="scalePosition(vertex.x)"
                 [attr.cy]="scalePosition(vertex.y)"
-                [attr.r]="1"
+                r="1"
         ></circle>
+    </g>
+    <g *ngFor="let edge of graph.edges">
+        <line
+                [attr.x1]="scalePosition(edge.source.x)"
+                [attr.y1]="scalePosition(edge.source.y)"
+                [attr.x2]="scalePosition(edge.target.x)"
+                [attr.y2]="scalePosition(edge.target.y)"
+                stroke="black"
+        ></line>
     </g>
 </svg>
