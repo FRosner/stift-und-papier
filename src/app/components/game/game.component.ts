@@ -29,8 +29,9 @@ export class GameComponent implements OnInit {
 
   drawEdge(edge: Edge, player: Player) {
     if (!Edge.isOwned(edge)) {
-      if (this.graph.findPath(edge.source, edge.target)) {
-        window.alert('Loop Loop');
+      const path = this.graph.findPath(edge.source, edge.target);
+      if (path.length > 0) {
+        window.alert(path.map(v => `${v.id} (${v.x}, ${v.y})`).join(' => '));
       }
       edge.owner = player;
     }

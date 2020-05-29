@@ -62,29 +62,34 @@ describe('Graph', () => {
 
     it('should not detect a path if there is none due to missing ownership in a trivial graph', () => {
       const graph = Graph.initialize(1, 2);
-      expect(graph.findPath(graph.vertices[0], graph.vertices[1])).toEqual(false);
+      expect(graph.findPath(graph.vertices[0], graph.vertices[1])).toEqual([]);
     });
 
     it('should detect an existing path in a trivial graph', () => {
       const graph = Graph.initialize(1, 2);
       graph.edges[0].owner = player;
-      expect(graph.findPath(graph.vertices[0], graph.vertices[1])).toEqual(true);
+      expect(graph.findPath(graph.vertices[0], graph.vertices[1])).toEqual([graph.vertices[0], graph.vertices[1]]);
     });
 
     it('should not detect a path if there is none due to missing ownership in a complex graph', () => {
       const graph = Graph.initialize(100, 100);
-      expect(graph.findPath(graph.vertices[0], graph.vertices[99])).toEqual(false);
+      expect(graph.findPath(graph.vertices[0], graph.vertices[99])).toEqual([]);
     });
 
     it('should detect an existing path in a complex graph', () => {
       const graph = Graph.initialize(100, 100);
+      const expectedPath: Vertex[] = [graph.vertices[0]];
       for (let x = 0; x < graph.xSize - 1; x++) {
-        graph.edges.find(e => e.source.x === x && e.source.y === 0).owner = player;
+        const edge = graph.edges.find(e => e.source.x === x && e.source.y === 0);
+        edge.owner = player;
+        expectedPath.push(edge.target);
       }
       for (let y = 0; y < graph.xSize - 1; y++) {
-        graph.edges.find(e => e.source.x === graph.xSize - 1 && e.source.y === y).owner = player;
+        const edge = graph.edges.find(e => e.source.x === graph.xSize - 1 && e.source.y === y);
+        edge.owner = player;
+        expectedPath.push(edge.target);
       }
-      expect(graph.findPath(graph.vertices[0], graph.vertices[graph.vertices.length - 1])).toEqual(true);
+      expect(graph.findPath(graph.vertices[0], graph.vertices[graph.vertices.length - 1])).toEqual(expectedPath);
     });
   });
 });

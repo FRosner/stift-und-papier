@@ -37,10 +37,12 @@ export class Graph {
     );
   }
 
-  public findPath(start: Vertex, end: Vertex): boolean {
+  public findPath(start: Vertex, end: Vertex): Vertex[] {
     let found = false;
+    const path: Vertex[] = [];
 
     function search(v: SearchVertex) {
+      path.push(v.self);
       if (v.self === end) {
         found = true;
         return;
@@ -53,6 +55,9 @@ export class Graph {
           }
         }
       }
+      if (!found) {
+        path.pop();
+      }
     }
 
     const searchGraph = this.vertices.map(SearchVertex.fromVertex);
@@ -62,7 +67,7 @@ export class Graph {
           searchGraph[edge.target.id].neighbors.push(searchGraph[edge.source.id]);
         });
     search(searchGraph[start.id]);
-    return found;
+    return path;
   }
 
 }
