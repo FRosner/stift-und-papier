@@ -27,8 +27,8 @@ export class GameComponent implements OnInit {
     return pos * this.svgScalingFactor + (this.svgScalingFactor / 2);
   }
 
-  drawEdge(edge: Edge) {
-    edge.owner = this.player;
+  drawEdge(edge: Edge, player: Player) {
+    edge.owner = player;
   }
 
   ngOnInit() {

@@ -10,7 +10,8 @@
                 [attr.x2]="scalePosition(edge.target.x)"
                 [attr.y2]="scalePosition(edge.target.y)"
                 [attr.stroke]="(edge.owner) ? edge.owner.color : '#eee'"
-                (click)="drawEdge(edge)"
+                [attr.id]="'edge-' + edge.source.x + '-' + edge.source.y + '-' + edge.target.x + '-' + edge.target.x"
+                (click)="drawEdge(edge, player)"
         ></line>
     </g>
     <g *ngFor="let vertex of graph.vertices">
