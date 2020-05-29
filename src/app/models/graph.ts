@@ -20,10 +20,10 @@ export class Graph {
         (vertex: Vertex, i: number) => {
           const e: Edge[] = [];
           if (vertex.x < xSize - 1) {
-            e.push(new Edge(vertex, vertices[i + 1]));
+            e.push(Edge.initialize(vertex, vertices[i + 1]));
           }
           if (vertex.y < ySize - 1) {
-            e.push(new Edge(vertex, vertices[i + xSize]));
+            e.push(Edge.initialize(vertex, vertices[i + xSize]));
           }
           return e;
         },

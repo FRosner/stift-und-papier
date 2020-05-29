@@ -3,20 +3,20 @@
         height="100vh"
         [attr.viewBox]="'0 0 ' + viewBox.width + ' ' + viewBox.height"
 >
-    <g *ngFor="let vertex of graph.vertices">
-        <circle
-                [attr.cx]="scalePosition(vertex.x)"
-                [attr.cy]="scalePosition(vertex.y)"
-                r="1"
-        ></circle>
-    </g>
     <g *ngFor="let edge of graph.edges">
         <line
                 [attr.x1]="scalePosition(edge.source.x)"
                 [attr.y1]="scalePosition(edge.source.y)"
                 [attr.x2]="scalePosition(edge.target.x)"
                 [attr.y2]="scalePosition(edge.target.y)"
-                stroke="black"
+                [attr.stroke]="(edge.owner) ? edge.owner.color : '#eee'"
         ></line>
+    </g>
+    <g *ngFor="let vertex of graph.vertices">
+        <circle
+                [attr.cx]="scalePosition(vertex.x)"
+                [attr.cy]="scalePosition(vertex.y)"
+                r="1"
+        ></circle>
     </g>
 </svg>
