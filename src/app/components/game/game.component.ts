@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Graph} from '@src/app/models/graph';
+import {Player} from '@src/app/models/player';
+import {Edge} from '@src/app/models/edge';
 
 @Component({
   selector: 'pnp-game',
@@ -19,8 +21,14 @@ export class GameComponent implements OnInit {
     height: this.graph.ySize * this.svgScalingFactor,
   };
 
+  player = new Player('Alice', 'royalblue');
+
   scalePosition(pos: number): number {
     return pos * this.svgScalingFactor + (this.svgScalingFactor / 2);
+  }
+
+  drawEdge(edge: Edge) {
+    edge.owner = this.player;
   }
 
   ngOnInit() {
