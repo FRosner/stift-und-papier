@@ -13,8 +13,7 @@ export class GameComponent implements OnInit {
 
   graph = Graph.initialize(4, 4);
 
-  circleWidth = 1;
-  svgScalingFactor = 10;
+  svgScalingFactor = 25;
   viewBox = {
     width: this.graph.xSize * this.svgScalingFactor,
     height: this.graph.ySize * this.svgScalingFactor,
