@@ -3,6 +3,7 @@ import {Graph} from '@src/app/models/graph';
 import {Player} from '@src/app/models/player';
 import {Edge} from '@src/app/models/edge';
 import {Square} from '@src/app/models/square';
+import {Polygon} from '@src/app/models/polygon';
 
 @Component({
   selector: 'pnp-game',
@@ -33,7 +34,8 @@ export class GameComponent implements OnInit {
     if (!Edge.isOwned(edge)) {
       const path = this.graph.findPath(edge.source, edge.target);
       if (path.length > 0) {
-        window.alert(path.map(v => `${v.id} (${v.x}, ${v.y})`).join(' => '));
+        const polygon = Polygon.fromPath(path);
+        console.log(polygon);
       }
       edge.owner = player;
     }
