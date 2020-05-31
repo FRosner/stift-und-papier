@@ -31,4 +31,9 @@ export class Square {
     }
     return squares;
   }
+
+  public isOwned(): boolean {
+    return this.owner !== null;
+  }
+
 }

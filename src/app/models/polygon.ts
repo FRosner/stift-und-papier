@@ -28,7 +28,7 @@ export class Polygon {
 
     See the test cases for examples.
    */
-  public static contains(polygon: Polygon, square: Square): boolean {
+  public contains(square: Square): boolean {
     const isVertical = (e: Edge) =>
         e.source.x === e.target.x;
     const squareIsLeftFromEdge = (s: Square, e: Edge) =>
@@ -37,7 +37,7 @@ export class Polygon {
         Math.min(e.source.y, e.target.y) === square.topRight.y &&
         Math.max(e.source.y, e.target.y) === square.bottomRight.y;
 
-    const numIntersections = polygon.edges
+    const numIntersections = this.edges
         .filter(edge => isVertical(edge) && squareIsLeftFromEdge(square, edge) && hasSameY(square, edge))
         .length;
     return numIntersections % 2 === 1;

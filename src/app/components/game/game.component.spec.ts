@@ -43,4 +43,12 @@ describe('GameComponent', () => {
     const edge = fixture.debugElement.query(By.css('#edge-0-0-1-1'));
     expect(edge.attributes['stroke']).toEqual(player.color);
   });
+
+  it('should change the owner of all squares after closing a section', () => {
+    // TODO
+  });
+
+  it('should not change the owner squares that already have an owner', () => {
+    // TODO but needs multiplayer capabilities
+  });
 });

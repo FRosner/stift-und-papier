@@ -35,7 +35,9 @@ export class GameComponent implements OnInit {
       const path = this.graph.findPath(edge.source, edge.target);
       if (path.length > 0) {
         const polygon = Polygon.fromPath(path);
-        console.log(polygon);
+        const wonSquares = this.squares
+            .filter(s => polygon.contains(s) && !s.isOwned());
+        wonSquares.forEach(s => s.owner = player);
       }
       edge.owner = player;
     }

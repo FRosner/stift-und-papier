@@ -49,7 +49,7 @@ describe('Polygon', () => {
       const D = new Vertex(3, 1, 1);
       const polygon = Polygon.fromPath([A, B, D, C]);
       const square = new Square(A, B, C, D, null);
-      expect(Polygon.contains(polygon, square)).toEqual(true);
+      expect(polygon.contains(square)).toEqual(true);
     });
 
     /*
@@ -78,7 +78,7 @@ describe('Polygon', () => {
       const L = new Vertex(11, 0, 1);
       const polygon = Polygon.fromPath([A, B, C, D, E, F, G, H, I, J, K, L]);
       const square = new Square(L, I, K, J, null);
-      expect(Polygon.contains(polygon, square)).toEqual(true);
+      expect(polygon.contains(square)).toEqual(true);
 
     });
 
@@ -102,7 +102,7 @@ describe('Polygon', () => {
       const F = new Vertex(5, 1, 2);
       const polygon = Polygon.fromPath([C, D, F, E]);
       const square = new Square(A, B, C, D, null);
-      expect(Polygon.contains(polygon, square)).toEqual(false);
+      expect(polygon.contains(square)).toEqual(false);
     });
 
     /*
@@ -125,7 +125,7 @@ describe('Polygon', () => {
       const F = new Vertex(5, 1, 2);
       const polygon = Polygon.fromPath([A, B, C, D]);
       const square = new Square(C, D, E, F, null);
-      expect(Polygon.contains(polygon, square)).toEqual(false);
+      expect(polygon.contains(square)).toEqual(false);
     });
 
     /*
@@ -144,7 +144,7 @@ describe('Polygon', () => {
       const F = new Vertex(5, 2, 1);
       const polygon = Polygon.fromPath([B, C, F, E]);
       const square = new Square(A, B, D, E, null);
-      expect(Polygon.contains(polygon, square)).toEqual(false);
+      expect(polygon.contains(square)).toEqual(false);
     });
 
     /*
@@ -163,7 +163,7 @@ describe('Polygon', () => {
       const F = new Vertex(5, 2, 1);
       const polygon = Polygon.fromPath([A, B, E, D]);
       const square = new Square(B, C, E, F, null);
-      expect(Polygon.contains(polygon, square)).toEqual(false);
+      expect(polygon.contains(square)).toEqual(false);
     });
   });
 });
