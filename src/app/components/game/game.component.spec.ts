@@ -6,7 +6,8 @@ import {Player} from '@src/app/models/player';
 describe('GameComponent', () => {
   let component: GameComponent;
   let fixture: ComponentFixture<GameComponent>;
-  const player = new Player(0, 'test', 'blue');
+  let player1: Player;
+  let player2: Player;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -19,6 +20,8 @@ describe('GameComponent', () => {
     fixture = TestBed.createComponent(GameComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    player1 = component.players[0];
+    player2 = component.players[1];
   });
 
   it('should render ownerless edges grey', () => {
@@ -26,19 +29,21 @@ describe('GameComponent', () => {
     expect(edge.attributes['stroke']).toEqual('#ccc');
   });
 
-  it('should change the owner of an edge on click', () => {
+  it('should change the owner of an edge on click and move to the next player', () => {
+    const currentPlayer = component.currentPlayer;
     const edge = fixture.debugElement.query(By.css('#edge-0-0-1-1'));
     edge.triggerEventHandler('click', null);
-    expect(component.graph.edges.find(e => e.owner === component.player))
+    expect(component.graph.edges.find(e => e.owner === currentPlayer))
         .toBeTruthy();
+    expect(component.currentPlayer === currentPlayer).toEqual(false);
   });
 
   it('should render player edges with the respective color', () => {
-    component.graph.edges[0].owner = player;
+    component.graph.edges[0].owner = player1;
     fixture.detectChanges();
 
     const edge = fixture.debugElement.query(By.css('#edge-0-0-1-1'));
-    expect(edge.attributes['stroke']).toEqual(player.color);
+    expect(edge.attributes['stroke']).toEqual(player1.color);
   });
 
   it('should render ownerless squares with the respective color', () => {
@@ -48,25 +53,30 @@ describe('GameComponent', () => {
 
   it('should render player squares with the respective color', () => {
     const edge = fixture.debugElement.query(By.css('#square-0-0'));
-    component.squares[0].owner = player;
+    component.squares[0].owner = player1;
     fixture.detectChanges();
-    expect(edge.attributes['fill']).toEqual(player.color);
+    expect(edge.attributes['fill']).toEqual(player1.color);
   });
 
   it('should render the score', () => {
-    const score = fixture.debugElement.query(By.css('#score-0'));
-    component.scoreBoard[player.id] = 5;
+    const score1 = fixture.debugElement.query(By.css('#score-0'));
+    const score2 = fixture.debugElement.query(By.css('#score-1'));
+    player1.score = 5;
+    player2.score = 3;
     fixture.detectChanges();
-    expect(score.nativeElement.textContent.trim()).toEqual('5');
+    expect(score1.nativeElement.textContent.trim()).toEqual('Alice: 5');
+    expect(score2.nativeElement.textContent.trim()).toEqual('Bob: 3');
   });
 
-  it('should change the owner of all squares and update the scoreafter closing a section', () => {
-    drawEdge(player, 0, 0, 1, 0);
-    drawEdge(player, 1, 0, 1, 1);
-    drawEdge(player, 0, 1, 1, 1);
-    drawEdge(player, 0, 0, 0, 1);
-    expect(component.squares[0].owner).toEqual(player);
-    expect(component.scoreBoard[player.id]).toEqual(1);
+  it('should behave correctly after closing a section', () => {
+    expect(component.currentPlayer === player1);
+    drawEdge(player1, 0, 0, 1, 0);
+    drawEdge(player1, 1, 0, 1, 1);
+    drawEdge(player1, 0, 1, 1, 1);
+    drawEdge(player1, 0, 0, 0, 1);
+    expect(component.squares[0].owner).toEqual(player1);
+    expect(player1.score).toEqual(1);
+    expect(component.currentPlayer === player2);
   });
 
   it('should not change the owner squares that already have an owner', () => {

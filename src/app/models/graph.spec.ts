@@ -58,7 +58,7 @@ describe('Graph', () => {
   });
 
   describe('findPath', () => {
-    const player = new Player(0, 'player', 'green');
+    const player = new Player(0, 'currentPlayer', 'green', 0);
 
     it('should not detect a path if there is none due to missing ownership in a trivial graph', () => {
       const graph = Graph.initialize(1, 2);

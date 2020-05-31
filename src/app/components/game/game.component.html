@@ -4,22 +4,18 @@
         [attr.viewBox]="'0 0 ' + viewBox.width + ' ' + viewBox.height"
 >
     <!--TODO The score should be moved out of the SVG-->
-    <text
-            [attr.x]="0"
-            [attr.y]="5"
-            font-size="2px"
-    >
-        Score:
-    </text>
-    <text
-            [attr.id]="'score-' + player.id"
-            [attr.x]="6"
-            [attr.y]="5"
-            [attr.fill]="player.color"
-            font-size="2px"
-    >
-        {{scoreBoard[player.id]}}
-    </text>
+    <g *ngFor="let player of players">
+        <text
+                [attr.id]="'score-' + player.id"
+                [attr.x]="6"
+                [attr.y]="4 + player.id * 4"
+                [attr.fill]="player.color"
+                [attr.font-weight]="(player === currentPlayer) ? 'bold' : 'normal'"
+                font-size="2px"
+        >
+            {{player.name}}: {{player.score}}
+        </text>
+    </g>
 
     <g *ngFor="let square of squares">
         <polygon
@@ -37,7 +33,7 @@
                 [attr.y2]="scalePosition(edge.target.y)"
                 [attr.stroke]="(edge.owner) ? edge.owner.color : '#ccc'"
                 [attr.id]="'edge-' + edge.source.x + '-' + edge.source.y + '-' + edge.target.x + '-' + edge.target.x"
-                (click)="drawEdge(edge, player)"
+                (click)="drawEdge(edge, currentPlayer)"
         ></line>
     </g>
     <g *ngFor="let vertex of graph.vertices">
