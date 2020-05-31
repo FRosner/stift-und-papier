@@ -29,6 +29,8 @@ export class GameComponent implements OnInit {
     width: this.graph.xSize * this.svgScalingFactor,
     height: this.graph.ySize * this.svgScalingFactor,
   };
+  defaultEdgeStroke = '#ccc';
+  edgeStrokes = this.graph.edges.map(() => this.defaultEdgeStroke);
 
   get currentPlayer() {
     return this.players[this.currentPlayerIdx];

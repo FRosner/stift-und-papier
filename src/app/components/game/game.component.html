@@ -25,15 +25,17 @@
                 fill-opacity="0.5"
         ></polygon>
     </g>
-    <g *ngFor="let edge of graph.edges">
+    <g *ngFor="let edge of graph.edges; let i = index">
         <line
                 [attr.x1]="scalePosition(edge.source.x)"
                 [attr.y1]="scalePosition(edge.source.y)"
                 [attr.x2]="scalePosition(edge.target.x)"
                 [attr.y2]="scalePosition(edge.target.y)"
-                [attr.stroke]="(edge.owner) ? edge.owner.color : '#ccc'"
+                [attr.stroke]="(edge.owner) ? edge.owner.color : edgeStrokes[i]"
                 [attr.id]="'edge-' + edge.source.x + '-' + edge.source.y + '-' + edge.target.x + '-' + edge.target.x"
                 (click)="drawEdge(edge, currentPlayer)"
+                (mouseover)="edgeStrokes[i] = currentPlayer.color"
+                (mouseout)="edgeStrokes[i] = defaultEdgeStroke"
         ></line>
     </g>
     <g *ngFor="let vertex of graph.vertices">
