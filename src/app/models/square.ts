@@ -17,8 +17,8 @@ export class Square {
       return [];
     }
     const squares: Square[] = [];
-    for (let x = 0; x < graph.xSize - 1; x++) {
-      for (let y = 0; y < graph.ySize - 1; y++) {
+    for (let y = 0; y < graph.ySize - 1; y++) {
+      for (let x = 0; x < graph.xSize - 1; x++) {
         const i = x + y * graph.xSize;
         squares.push(new Square(
             graph.vertices[i],
