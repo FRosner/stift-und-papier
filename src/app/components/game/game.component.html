@@ -3,6 +3,24 @@
         height="100vh"
         [attr.viewBox]="'0 0 ' + viewBox.width + ' ' + viewBox.height"
 >
+    <!--TODO The score should be moved out of the SVG-->
+    <text
+            [attr.x]="0"
+            [attr.y]="5"
+            font-size="2px"
+    >
+        Score:
+    </text>
+    <text
+            [attr.id]="'score-' + player.id"
+            [attr.x]="6"
+            [attr.y]="5"
+            [attr.fill]="player.color"
+            font-size="2px"
+    >
+        {{scoreBoard[player.id]}}
+    </text>
+
     <g *ngFor="let square of squares">
         <polygon
                 [attr.id]="'square-' + square.topLeft.x + '-' + square.topLeft.y"

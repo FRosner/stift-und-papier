@@ -4,6 +4,7 @@ import {Player} from '@src/app/models/player';
 import {Edge} from '@src/app/models/edge';
 import {Square} from '@src/app/models/square';
 import {Polygon} from '@src/app/models/polygon';
+import {ScoreBoard} from '@src/app/models/score-board';
 
 @Component({
   selector: 'pnp-game',
@@ -17,14 +18,14 @@ export class GameComponent implements OnInit {
 
   graph = Graph.initialize(4, 3);
   squares = Square.fromGraph(this.graph);
+  player = new Player(0, 'Alice', 'royalblue');
+  scoreBoard: ScoreBoard = {};
 
   svgScalingFactor = 25;
   viewBox = {
     width: this.graph.xSize * this.svgScalingFactor,
     height: this.graph.ySize * this.svgScalingFactor,
   };
-
-  player = new Player('Alice', 'royalblue');
 
   scalePosition(pos: number): number {
     return pos * this.svgScalingFactor + (this.svgScalingFactor / 2);
@@ -35,17 +36,16 @@ export class GameComponent implements OnInit {
       const path = this.graph.findPath(edge.source, edge.target);
       if (path.length > 0) {
         const polygon = Polygon.fromPath(path);
-        this.squares.forEach(square => {
-          if (polygon.contains(square) && !square.isOwned()) {
-            square.owner = player;
-          }
-        });
+        const wonSquares = this.squares.filter(square => polygon.contains(square) && !square.isOwned());
+        wonSquares.forEach(square => square.owner = player);
+        this.scoreBoard[player.id] += wonSquares.length;
       }
       edge.owner = player;
     }
   }
 
   ngOnInit() {
+    this.scoreBoard[this.player.id] = 0;
   }
 
 }
