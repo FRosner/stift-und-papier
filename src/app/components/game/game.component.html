@@ -5,6 +5,7 @@
 >
     <g *ngFor="let square of squares">
         <polygon
+                [attr.id]="'square-' + square.topLeft.x + '-' + square.topLeft.y"
                 [attr.points]="scalePosition(square.topLeft.x) + ',' + scalePosition(square.topLeft.y) + ' ' + scalePosition(square.topRight.x) + ',' + scalePosition(square.topRight.y) + ' ' + scalePosition(square.bottomRight.x) + ',' + scalePosition(square.bottomRight.y) + ' ' + scalePosition(square.bottomLeft.x) + ',' + scalePosition(square.bottomLeft.y) + ' '"
                 [attr.fill]="(square.owner) ? square.owner.color : '#ccc'"
                 fill-opacity="0.5"
