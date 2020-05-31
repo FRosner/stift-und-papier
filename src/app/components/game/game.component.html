@@ -27,6 +27,7 @@
     </g>
     <g *ngFor="let edge of graph.edges; let i = index">
         <line
+                stroke-width="2"
                 [attr.x1]="scalePosition(edge.source.x)"
                 [attr.y1]="scalePosition(edge.source.y)"
                 [attr.x2]="scalePosition(edge.target.x)"
@@ -42,7 +43,8 @@
         <circle
                 [attr.cx]="scalePosition(vertex.x)"
                 [attr.cy]="scalePosition(vertex.y)"
-                r="1"
+                fill="#444"
+                r="1.5"
         ></circle>
     </g>
 </svg>
