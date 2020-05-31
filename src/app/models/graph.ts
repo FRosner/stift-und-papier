@@ -39,25 +39,25 @@ export class Graph {
 
   public findPath(start: Vertex, end: Vertex): Vertex[] {
     let found = false;
-    const path: Vertex[] = [];
+    const pathStack: Vertex[] = [];
+    let finalPath: Vertex[] = [];
 
     function search(v: SearchVertex) {
-      path.push(v.self);
+      pathStack.push(v.self);
       if (v.self === end) {
         found = true;
+        finalPath = [...pathStack];
         return;
       } else {
         v.seen = true;
         for (let i = 0; i < v.neighbors.length; i++) {
           const neighbor = v.neighbors[i];
-          if (!neighbor.seen) {
+          if (!neighbor.seen && !found) {
             search(neighbor);
           }
         }
       }
-      if (!found) {
-        path.pop();
-      }
+      pathStack.pop();
     }
 
     const searchGraph = this.vertices.map(SearchVertex.fromVertex);
@@ -67,7 +67,7 @@ export class Graph {
           searchGraph[edge.target.id].neighbors.push(searchGraph[edge.source.id]);
         });
     search(searchGraph[start.id]);
-    return path;
+    return finalPath;
   }
 
 }
