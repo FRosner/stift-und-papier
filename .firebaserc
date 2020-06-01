@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "stift-und-papier"
+  },
+  "targets": {
+    "stift-und-papier": {
+      "hosting": {
+        "pnp": [
+          "stift-und-papier"
+        ]
+      }
+    }
+  }
+}
