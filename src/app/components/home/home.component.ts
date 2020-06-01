@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {AuthService} from '@src/app/services/auth.service';
 
 @Component({
   selector: 'pnp-home',
@@ -8,7 +9,9 @@ import {Component, OnInit} from '@angular/core';
 export class HomeComponent implements OnInit {
   title = 'Pen & Paper';
 
-  constructor() {
+  constructor(
+      public auth: AuthService,
+  ) {
   }
 
   ngOnInit() {
