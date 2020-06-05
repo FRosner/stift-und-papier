@@ -15,7 +15,7 @@ describe('GameComponent', () => {
   let fixture: ComponentFixture<GameComponent>;
   let player1: Player;
   let player2: Player;
-  const gameService = jasmine.createSpyObj('GameService', ['getGame']);
+  const gameService = jasmine.createSpyObj('GameService', ['getGame', 'setGame']);
   const authService = jasmine.createSpyObj('AuthService', ['getUser', 'googleSignin', 'signOut']);
 
   beforeEach(async(() => {
@@ -29,16 +29,18 @@ describe('GameComponent', () => {
         .compileComponents();
   }));
 
-  beforeEach(() => {
+  beforeEach(async () => {
     const graph = Graph.initialize(5, 5);
+    player1 = new Player(0, 'Alice', 'royalblue', 0);
+    player2 = new Player(1, 'Bob', '#F08080', 0);
     gameService.getGame.and.returnValue(from(Promise.resolve(
         new Game(
             '1234',
             graph,
             Square.fromGraph(graph),
             [
-              new Player(0, 'Alice', 'royalblue', 0),
-              new Player(1, 'Bob', '#F08080', 0),
+              player1,
+              player2,
             ],
             0,
         ),
@@ -51,9 +53,8 @@ describe('GameComponent', () => {
     )));
     fixture = TestBed.createComponent(GameComponent);
     component = fixture.componentInstance;
+    await component.onlineGame$.toPromise();
     fixture.detectChanges();
-    player1 = component.game.players[0];
-    player2 = component.game.players[1];
   });
 
   it('should render ownerless edges grey', () => {
@@ -62,16 +63,16 @@ describe('GameComponent', () => {
   });
 
   it('should change the owner of an edge on click and move to the next player', () => {
-    const currentPlayer = component.currentPlayer;
+    const currentPlayer = component.currentPlayer(component.game$.value);
     const edge = fixture.debugElement.query(By.css('#edge-0-0-1-1'));
     edge.triggerEventHandler('click', null);
-    expect(component.game.graph.edges.find(e => e.owner === currentPlayer))
+    expect(component.game$.value.graph.edges.find(e => e.owner.id === currentPlayer.id))
         .toBeTruthy();
-    expect(component.currentPlayer === currentPlayer).toEqual(false);
+    expect(component.currentPlayer(component.game$.value) === currentPlayer).toEqual(false);
   });
 
   it('should render player edges with the respective color', () => {
-    component.game.graph.edges[0].owner = player1;
+    component.game$.value.graph.edges[0].owner = player1;
     fixture.detectChanges();
 
     const edge = fixture.debugElement.query(By.css('#edge-0-0-1-1'));
@@ -84,43 +85,43 @@ describe('GameComponent', () => {
   });
 
   it('should render player squares with the respective color', () => {
-    const edge = fixture.debugElement.query(By.css('#square-0-0'));
-    component.game.squares[0].owner = player1;
+    component.game$.value.squares[0].owner = player1;
+    component.game$.next(component.game$.value);
     fixture.detectChanges();
-    expect(edge.attributes['fill']).toEqual(player1.color);
+    const square = fixture.debugElement.query(By.css('#square-0-0'));
+    expect(square.attributes['fill']).toEqual(player1.color);
   });
 
   it('should render the score', () => {
+    component.game$.value.players[0].score = 5;
+    component.game$.value.players[1].score = 3;
+    component.game$.next(component.game$.value);
+    fixture.detectChanges();
     const score1 = fixture.debugElement.query(By.css('#score-0'));
     const score2 = fixture.debugElement.query(By.css('#score-1'));
-    player1.score = 5;
-    player2.score = 3;
-    fixture.detectChanges();
     expect(score1.nativeElement.textContent.trim()).toEqual('Alice: 5');
     expect(score2.nativeElement.textContent.trim()).toEqual('Bob: 3');
   });
 
   it('should behave correctly after closing a section', () => {
-    expect(component.currentPlayer === player1);
-    drawEdge(player1, 0, 0, 1, 0);
-    drawEdge(player1, 1, 0, 1, 1);
-    drawEdge(player1, 0, 1, 1, 1);
-    drawEdge(player1, 0, 0, 0, 1);
-    expect(component.game.squares[0].owner).toEqual(player1);
-    expect(player1.score).toEqual(1);
-    expect(component.currentPlayer === player2);
+    drawEdge(0, 0, 1, 0);
+    drawEdge(1, 0, 1, 1);
+    drawEdge(0, 1, 1, 1);
+    drawEdge(0, 0, 0, 1);
+    expect(component.game$.value.squares[0].owner.id).toEqual(player2.id);
+    expect(component.game$.value.players[1].score).toEqual(1);
   });
 
   it('should not change the owner squares that already have an owner', () => {
     // TODO but needs multiplayer capabilities
   });
 
-  function drawEdge(p: Player, x1: number, y1: number, x2: number, y2: number) {
+  function drawEdge(x1: number, y1: number, x2: number, y2: number) {
     component.drawEdge(
-        component.game.graph.edges.find(e =>
+        component.game$.value.graph.edges.find(e =>
             e.source.x === x1 && e.source.y === y1 && e.target.x === x2 && e.target.y === y2,
         ),
-        p,
+        component.game$.value,
     );
   }
 });

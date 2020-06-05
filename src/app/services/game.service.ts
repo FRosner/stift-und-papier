@@ -20,7 +20,7 @@ export class GameService {
   private gamesCollection = this.firestore.collection('games');
 
   getGame(userId: string): Observable<Game> {
-    const gameDoc = this.gamesCollection.doc<any>(userId);
+    const gameDoc = this.gamesCollection.doc<Game>(userId);
     return gameDoc.get().pipe(
         switchMap(g => {
           if (!g.exists) {
@@ -31,6 +31,10 @@ export class GameService {
         }),
         switchMap(() => gameDoc.valueChanges()),
     );
+  }
+
+  setGame(game: Game): Promise<void> {
+    return this.gamesCollection.doc<Game>(game.id).set(game.serialize());
   }
 
   private newGame(id: string): Game {

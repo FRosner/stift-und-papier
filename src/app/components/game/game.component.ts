@@ -6,8 +6,9 @@ import {Square} from '@src/app/models/square';
 import {Polygon} from '@src/app/models/polygon';
 import {GameService} from '@src/app/services/game.service';
 import {AuthService} from '@src/app/services/auth.service';
-import {switchMap} from 'rxjs/operators';
+import {map, switchMap, tap} from 'rxjs/operators';
 import {Game} from '@src/app/models/game';
+import {BehaviorSubject, Subject} from 'rxjs';
 
 @Component({
   selector: 'pnp-game',
@@ -16,68 +17,75 @@ import {Game} from '@src/app/models/game';
 })
 export class GameComponent implements OnInit {
 
+  game$ = new BehaviorSubject<Game|null>(null);
+  onlineGame$ = this.auth.getUser().pipe(
+    tap(user => this.game$.next(this.newGame(user.uid))),
+    switchMap(user => this.gameService.getGame(user.uid)),
+  );
+  svgScalingFactor = 25;
+  viewBox$ = this.game$.pipe(
+    map(game => ({
+        width: game.graph.xSize * this.svgScalingFactor,
+        height: game.graph.ySize * this.svgScalingFactor,
+      }),
+    ),
+  );
+  defaultEdgeStroke = '#ccc';
+  edgeStrokes$ = this.game$.pipe(
+    map( game => game.graph.edges.map(() => this.defaultEdgeStroke)),
+  );
+
   constructor(
-      public gameService: GameService,
-      public auth: AuthService,
+    public gameService: GameService,
+    public auth: AuthService,
   ) {
   }
 
-  game$ = this.auth.getUser().pipe(
-      switchMap(user => this.gameService.getGame(user.uid)),
-  );
-
-  game = this.newGame();
-
-  svgScalingFactor = 25;
-  viewBox = {
-    width: this.game.graph.xSize * this.svgScalingFactor,
-    height: this.game.graph.ySize * this.svgScalingFactor,
-  };
-  defaultEdgeStroke = '#ccc';
-  edgeStrokes = this.game.graph.edges.map(() => this.defaultEdgeStroke);
-
-  get currentPlayer() {
-    return this.game.players[this.game.currentPlayerIdx];
+  currentPlayer(game: Game) {
+    return game.players[game.currentPlayerIdx];
   }
 
   scalePosition(pos: number): number {
     return pos * this.svgScalingFactor + (this.svgScalingFactor / 2);
   }
 
-  drawEdge(edge: Edge, player: Player) {
+  drawEdge(edge: Edge, game: Game) {
     if (!Edge.isOwned(edge)) {
-      const path = this.game.graph.findPath(edge.source, edge.target);
+      const player = this.currentPlayer(game);
+      const path = game.graph.findPath(edge.source, edge.target);
       if (path.length > 0) {
         const polygon = Polygon.fromPath(path);
-        const wonSquares = this.game.squares.filter(square => polygon.contains(square) && !square.isOwned());
+        const wonSquares = game.squares.filter(square => polygon.contains(square) && !square.isOwned());
         wonSquares.forEach(square => square.owner = player);
         player.score += wonSquares.length;
       } else {
-        this.nextPlayer();
+        this.nextPlayer(game);
       }
       edge.owner = player;
+      this.game$.next(game);
+      this.gameService.setGame(game);
     }
   }
 
-  nextPlayer() {
-    if (this.game.currentPlayerIdx === this.game.players.length - 1) {
-      this.game.currentPlayerIdx = 0;
+  nextPlayer(game: Game) {
+    if (game.currentPlayerIdx === game.players.length - 1) {
+      game.currentPlayerIdx = 0;
     } else {
-      this.game.currentPlayerIdx++;
+      game.currentPlayerIdx++;
     }
   }
 
-  newGame(): Game {
+  newGame(gameId: string): Game {
     const graph = Graph.initialize(5, 5);
     return new Game(
-        '1234',
-        graph,
-        Square.fromGraph(graph),
-        [
-          new Player(0, 'Alice', 'royalblue', 0),
-          new Player(1, 'Bob', '#F08080', 0),
-        ],
-        0,
+      gameId,
+      graph,
+      Square.fromGraph(graph),
+      [
+        new Player(0, 'Alice', 'royalblue', 0),
+        new Player(1, 'Bob', '#F08080', 0),
+      ],
+      0,
     );
   }
 
