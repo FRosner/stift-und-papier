@@ -9,12 +9,16 @@ import {auth} from 'firebase';
 })
 export class AuthService {
 
-  user$: Observable<User>;
+  private user$: Observable<User>;
 
   constructor(
       private fireAuth: AngularFireAuth,
   ) {
     this.user$ = this.fireAuth.authState;
+  }
+
+  getUser(): Observable<User> {
+    return this.user$;
   }
 
   async googleSignin() {

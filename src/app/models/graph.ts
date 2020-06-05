@@ -7,6 +7,14 @@ export class Graph {
   constructor(public vertices: Vertex[], public edges: Edge[], public xSize: number, public ySize: number) {
   }
 
+  public serialize() {
+    return {
+      ...this,
+      vertices: this.vertices.map(v => v.serialize()),
+      edges: this.edges.map(e => e.serialize()),
+    };
+  }
+
   public static initialize(xSize: number, ySize: number): Graph {
     const vertices = Array.from(Array(xSize * ySize).keys())
         .map(i =>

@@ -17,4 +17,14 @@ export class Edge {
     return edge.owner !== null;
   }
 
+  public serialize() {
+    return {
+      ...this,
+      source: this.source.serialize(),
+      target: this.target.serialize(),
+      owner: this.owner && this.owner.serialize(),
+    };
+  }
+
+
 }

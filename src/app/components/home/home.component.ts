@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from '@src/app/services/auth.service';
+import {GameService} from '@src/app/services/game.service';
 
 @Component({
   selector: 'pnp-home',
@@ -11,6 +12,7 @@ export class HomeComponent implements OnInit {
 
   constructor(
       public auth: AuthService,
+      public game: GameService,
   ) {
   }
 

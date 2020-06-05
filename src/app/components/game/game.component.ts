@@ -4,6 +4,9 @@ import {Player} from '@src/app/models/player';
 import {Edge} from '@src/app/models/edge';
 import {Square} from '@src/app/models/square';
 import {Polygon} from '@src/app/models/polygon';
+import {GameService} from '@src/app/services/game.service';
+import {AuthService} from '@src/app/services/auth.service';
+import {switchMap} from 'rxjs/operators';
 import {Game} from '@src/app/models/game';
 
 @Component({
@@ -13,9 +16,15 @@ import {Game} from '@src/app/models/game';
 })
 export class GameComponent implements OnInit {
 
-  constructor() {
+  constructor(
+      public gameService: GameService,
+      public auth: AuthService,
+  ) {
   }
 
+  game$ = this.auth.getUser().pipe(
+      switchMap(user => this.gameService.getGame(user.uid)),
+  );
 
   game = this.newGame();
 
@@ -60,16 +69,16 @@ export class GameComponent implements OnInit {
 
   newGame(): Game {
     const graph = Graph.initialize(5, 5);
-    return <Game>{
-      id: '1234',
-      graph: graph,
-      squares: Square.fromGraph(graph),
-      players: [
-        new Player(0, 'Alice', 'royalblue', 0),
-        new Player(1, 'Bob', '#F08080', 0),
-      ],
-      currentPlayerIdx: 0,
-    };
+    return new Game(
+        '1234',
+        graph,
+        Square.fromGraph(graph),
+        [
+          new Player(0, 'Alice', 'royalblue', 0),
+          new Player(1, 'Bob', '#F08080', 0),
+        ],
+        0,
+    );
   }
 
   ngOnInit() {

@@ -14,7 +14,7 @@
 </ng-template>
 
 <ng-template #authenticated>
-    <div *ngIf="auth.user$ | async as user">
+    <div *ngIf="auth.getUser() | async as user">
         <h1>
             Welcome to {{ title }}, {{ user.displayName }}!
         </h1>
@@ -25,5 +25,6 @@
 </ng-template>
 
 <ul>
-    <li><a routerLink="/game">New k-Squares Game</a></li>
+    <li><a routerLink="/game">New offline k-Squares Game</a></li>
+    <li *ngIf="auth.getUser() | async as user"><a [routerLink]="'/game/' + user.uid">New online k-Squares Game</a></li>
 </ul>

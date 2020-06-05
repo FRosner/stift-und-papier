@@ -36,4 +36,15 @@ export class Square {
     return this.owner !== null;
   }
 
+  public serialize() {
+    return {
+      ...this,
+      topLeft: this.topLeft.serialize(),
+      topRight: this.topRight.serialize(),
+      bottomLeft: this.bottomLeft.serialize(),
+      bottomRight: this.bottomRight.serialize(),
+      owner: this.owner && this.owner.serialize(),
+    };
+  }
+
 }

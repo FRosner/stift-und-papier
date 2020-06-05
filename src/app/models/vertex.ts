@@ -5,4 +5,10 @@ export class Vertex {
       public y: number,
   ) {
   }
+
+  public serialize() {
+    return {
+      ...this,
+    };
+  }
 }

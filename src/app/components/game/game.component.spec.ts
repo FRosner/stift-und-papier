@@ -2,21 +2,53 @@ import {GameComponent} from '@src/app/components/game/game.component';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
 import {Player} from '@src/app/models/player';
+import {GameService} from '@src/app/services/game.service';
+import {AuthService} from '@src/app/services/auth.service';
+import {from} from 'rxjs';
+import {Game} from '@src/app/models/game';
+import {Graph} from '@src/app/models/graph';
+import {Square} from '@src/app/models/square';
+import {User} from '@src/app/models/user';
 
 describe('GameComponent', () => {
   let component: GameComponent;
   let fixture: ComponentFixture<GameComponent>;
   let player1: Player;
   let player2: Player;
+  const gameService = jasmine.createSpyObj('GameService', ['getGame']);
+  const authService = jasmine.createSpyObj('AuthService', ['getUser', 'googleSignin', 'signOut']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [GameComponent],
+      providers: [
+        {provide: GameService, useValue: gameService},
+        {provide: AuthService, useValue: authService},
+      ],
     })
         .compileComponents();
   }));
 
   beforeEach(() => {
+    const graph = Graph.initialize(5, 5);
+    gameService.getGame.and.returnValue(from(Promise.resolve(
+        new Game(
+            '1234',
+            graph,
+            Square.fromGraph(graph),
+            [
+              new Player(0, 'Alice', 'royalblue', 0),
+              new Player(1, 'Bob', '#F08080', 0),
+            ],
+            0,
+        ),
+    )));
+    authService.getUser.and.returnValue(from(Promise.resolve(
+        <User>{
+          uid: '1',
+          email: 'e@ma.il',
+        },
+    )));
     fixture = TestBed.createComponent(GameComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
