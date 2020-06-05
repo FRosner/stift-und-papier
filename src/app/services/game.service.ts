@@ -23,7 +23,7 @@ export class GameService {
     const gameDoc = this.gamesCollection.doc<any>(userId);
     return gameDoc.get().pipe(
         switchMap(g => {
-          if (g.exists) {
+          if (!g.exists) {
             return from(gameDoc.set(this.newGame(userId).serialize()));
           } else {
             return from(Promise.resolve());
