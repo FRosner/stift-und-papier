@@ -20,8 +20,8 @@ describe('GameComponent', () => {
     fixture = TestBed.createComponent(GameComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    player1 = component.players[0];
-    player2 = component.players[1];
+    player1 = component.game.players[0];
+    player2 = component.game.players[1];
   });
 
   it('should render ownerless edges grey', () => {
@@ -33,13 +33,13 @@ describe('GameComponent', () => {
     const currentPlayer = component.currentPlayer;
     const edge = fixture.debugElement.query(By.css('#edge-0-0-1-1'));
     edge.triggerEventHandler('click', null);
-    expect(component.graph.edges.find(e => e.owner === currentPlayer))
+    expect(component.game.graph.edges.find(e => e.owner === currentPlayer))
         .toBeTruthy();
     expect(component.currentPlayer === currentPlayer).toEqual(false);
   });
 
   it('should render player edges with the respective color', () => {
-    component.graph.edges[0].owner = player1;
+    component.game.graph.edges[0].owner = player1;
     fixture.detectChanges();
 
     const edge = fixture.debugElement.query(By.css('#edge-0-0-1-1'));
@@ -53,7 +53,7 @@ describe('GameComponent', () => {
 
   it('should render player squares with the respective color', () => {
     const edge = fixture.debugElement.query(By.css('#square-0-0'));
-    component.squares[0].owner = player1;
+    component.game.squares[0].owner = player1;
     fixture.detectChanges();
     expect(edge.attributes['fill']).toEqual(player1.color);
   });
@@ -74,7 +74,7 @@ describe('GameComponent', () => {
     drawEdge(player1, 1, 0, 1, 1);
     drawEdge(player1, 0, 1, 1, 1);
     drawEdge(player1, 0, 0, 0, 1);
-    expect(component.squares[0].owner).toEqual(player1);
+    expect(component.game.squares[0].owner).toEqual(player1);
     expect(player1.score).toEqual(1);
     expect(component.currentPlayer === player2);
   });
@@ -85,7 +85,7 @@ describe('GameComponent', () => {
 
   function drawEdge(p: Player, x1: number, y1: number, x2: number, y2: number) {
     component.drawEdge(
-        component.graph.edges.find(e =>
+        component.game.graph.edges.find(e =>
             e.source.x === x1 && e.source.y === y1 && e.target.x === x2 && e.target.y === y2,
         ),
         p,
