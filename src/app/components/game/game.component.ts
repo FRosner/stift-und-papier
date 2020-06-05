@@ -4,6 +4,7 @@ import {Player} from '@src/app/models/player';
 import {Edge} from '@src/app/models/edge';
 import {Square} from '@src/app/models/square';
 import {Polygon} from '@src/app/models/polygon';
+import {Game} from '@src/app/models/game';
 
 @Component({
   selector: 'pnp-game',
@@ -15,25 +16,19 @@ export class GameComponent implements OnInit {
   constructor() {
   }
 
-  private currentPlayerIdx = 0;
 
-  graph = Graph.initialize(5, 5);
-  squares = Square.fromGraph(this.graph);
-  players = [
-    new Player(0, 'Alice', 'royalblue', 0),
-    new Player(1, 'Bob', '#F08080', 0),
-  ];
+  game = this.newGame();
 
   svgScalingFactor = 25;
   viewBox = {
-    width: this.graph.xSize * this.svgScalingFactor,
-    height: this.graph.ySize * this.svgScalingFactor,
+    width: this.game.graph.xSize * this.svgScalingFactor,
+    height: this.game.graph.ySize * this.svgScalingFactor,
   };
   defaultEdgeStroke = '#ccc';
-  edgeStrokes = this.graph.edges.map(() => this.defaultEdgeStroke);
+  edgeStrokes = this.game.graph.edges.map(() => this.defaultEdgeStroke);
 
   get currentPlayer() {
-    return this.players[this.currentPlayerIdx];
+    return this.game.players[this.game.currentPlayerIdx];
   }
 
   scalePosition(pos: number): number {
@@ -42,10 +37,10 @@ export class GameComponent implements OnInit {
 
   drawEdge(edge: Edge, player: Player) {
     if (!Edge.isOwned(edge)) {
-      const path = this.graph.findPath(edge.source, edge.target);
+      const path = this.game.graph.findPath(edge.source, edge.target);
       if (path.length > 0) {
         const polygon = Polygon.fromPath(path);
-        const wonSquares = this.squares.filter(square => polygon.contains(square) && !square.isOwned());
+        const wonSquares = this.game.squares.filter(square => polygon.contains(square) && !square.isOwned());
         wonSquares.forEach(square => square.owner = player);
         player.score += wonSquares.length;
       } else {
@@ -56,11 +51,25 @@ export class GameComponent implements OnInit {
   }
 
   nextPlayer() {
-    if (this.currentPlayerIdx === this.players.length - 1) {
-      this.currentPlayerIdx = 0;
+    if (this.game.currentPlayerIdx === this.game.players.length - 1) {
+      this.game.currentPlayerIdx = 0;
     } else {
-      this.currentPlayerIdx++;
+      this.game.currentPlayerIdx++;
     }
+  }
+
+  newGame(): Game {
+    const graph = Graph.initialize(5, 5);
+    return <Game>{
+      id: '1234',
+      graph: graph,
+      squares: Square.fromGraph(graph),
+      players: [
+        new Player(0, 'Alice', 'royalblue', 0),
+        new Player(1, 'Bob', '#F08080', 0),
+      ],
+      currentPlayerIdx: 0,
+    };
   }
 
   ngOnInit() {
