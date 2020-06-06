@@ -6,7 +6,7 @@ import {Square} from '@src/app/models/square';
 import {Polygon} from '@src/app/models/polygon';
 import {GameService} from '@src/app/services/game.service';
 import {AuthService} from '@src/app/services/auth.service';
-import {map, switchMap} from 'rxjs/operators';
+import {map, switchMap, tap} from 'rxjs/operators';
 import {Game} from '@src/app/models/game';
 import {BehaviorSubject, Subscription} from 'rxjs';
 
@@ -19,6 +19,7 @@ export class GameComponent implements OnInit, OnDestroy {
 
   game$ = new BehaviorSubject<Game | null>(null);
   onlineGame$ = this.auth.getUser().pipe(
+      tap(user => this.game$.next(this.newGame(user.uid))),
       switchMap(user => this.gameService.getGame(user.uid)),
   );
   private onlineGameSubscription: Subscription | null = null;
