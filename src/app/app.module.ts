@@ -9,7 +9,8 @@ import {AngularFireModule} from '@angular/fire';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {NgxFpTsModule} from 'ngx-fp-ts';
-import {MatProgressSpinnerModule} from '@angular/material';
+import {MatButtonModule, MatButtonToggleModule, MatCardModule, MatProgressSpinnerModule} from '@angular/material';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBNRNNjzZlZihD9CjZHwf8V4tT2PWMY5-I',
@@ -35,6 +36,10 @@ const firebaseConfig = {
     AngularFirestoreModule,
     NgxFpTsModule,
     MatProgressSpinnerModule,
+    MatCardModule,
+    MatButtonToggleModule,
+    MatButtonModule,
+    FontAwesomeModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

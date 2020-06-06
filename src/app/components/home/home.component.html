@@ -1,24 +1,38 @@
 <div id="container">
     <div *ngIf="auth.currentUser$ | async as currentUser; else loadingView">
         <div *ifSome="currentUser; else loginView; let user">
-            <h1>
-                Welcome to {{ title }}, {{ user.displayName }}!
-            </h1>
-            <p>
-                <button routerLink="/game">New offline k-Squares Game</button>
-            </p>
-            <p>
-                <button (click)="auth.signOut()">Logout</button>
-            </p>
+            <mat-card>
+                <mat-card-title>
+                    {{ title }}
+                </mat-card-title>
+                <p>
+                    Welcome, {{ user.displayName }}!
+                </p>
+                <p>
+                    <a mat-raised-button routerLink="/game">
+                        📝
+                        New Game
+                    </a>
+                </p>
+                <p>
+                    <button mat-raised-button (click)="auth.signOut()">
+                        <fa-icon [icon]="logoutIcon"></fa-icon>
+                        Logout
+                    </button>
+                </p>
+            </mat-card>
         </div>
 
         <ng-template #loginView>
-            <h1>
-                Welcome to {{ title }}, fam!
-            </h1>
-            <button (click)="auth.googleSignin()">
-                Login with Google
-            </button>
+            <mat-card>
+                <mat-card-title>
+                    {{ title }}
+                </mat-card-title>
+                <button mat-raised-button (click)="auth.googleSignin()">
+                    <fa-icon [icon]="googleIcon"></fa-icon>
+                    Login with Google
+                </button>
+            </mat-card>
         </ng-template>
     </div>
 </div>
