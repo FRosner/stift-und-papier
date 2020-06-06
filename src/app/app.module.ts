@@ -9,6 +9,7 @@ import {AngularFireModule} from '@angular/fire';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {NgxFpTsModule} from 'ngx-fp-ts';
+import {MatProgressSpinnerModule} from '@angular/material';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBNRNNjzZlZihD9CjZHwf8V4tT2PWMY5-I',
@@ -33,6 +34,7 @@ const firebaseConfig = {
     AngularFireAuthModule,
     AngularFirestoreModule,
     NgxFpTsModule,
+    MatProgressSpinnerModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
