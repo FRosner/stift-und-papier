@@ -48,7 +48,7 @@ export const Graph = {
 
     function search(v: SearchVertex) {
       pathStack.push(v.self);
-      if (v.self === end) {
+      if (v.self.id === end.id) {
         found = true;
         finalPath = [...pathStack];
         return;

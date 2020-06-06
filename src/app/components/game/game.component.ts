@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Graph} from '@src/app/models/graph';
 import {Player} from '@src/app/models/player';
 import {Edge} from '@src/app/models/edge';
@@ -6,22 +6,22 @@ import {Square} from '@src/app/models/square';
 import {Polygon} from '@src/app/models/polygon';
 import {GameService} from '@src/app/services/game.service';
 import {AuthService} from '@src/app/services/auth.service';
-import {map, switchMap, tap} from 'rxjs/operators';
+import {map, switchMap} from 'rxjs/operators';
 import {Game} from '@src/app/models/game';
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, Subscription} from 'rxjs';
 
 @Component({
   selector: 'pnp-game',
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css'],
 })
-export class GameComponent implements OnInit {
+export class GameComponent implements OnInit, OnDestroy {
 
   game$ = new BehaviorSubject<Game | null>(null);
   onlineGame$ = this.auth.getUser().pipe(
-      tap(user => this.game$.next(this.newGame(user.uid))),
       switchMap(user => this.gameService.getGame(user.uid)),
   );
+  private onlineGameSubscription: Subscription | null = null;
   svgScalingFactor = 25;
   viewBox$ = this.game$.pipe(
       map(game => ({
@@ -90,6 +90,13 @@ export class GameComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.onlineGameSubscription = this.onlineGame$.subscribe(this.game$);
+  }
+
+  ngOnDestroy() {
+    if (this.onlineGameSubscription) {
+      this.onlineGameSubscription.unsubscribe();
+    }
   }
 
 }
