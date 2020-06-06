@@ -6,9 +6,10 @@ import {Square} from '@src/app/models/square';
 import {Polygon} from '@src/app/models/polygon';
 import {GameService} from '@src/app/services/game.service';
 import {AuthService} from '@src/app/services/auth.service';
-import {map, switchMap, tap} from 'rxjs/operators';
+import {filter, map, switchMap} from 'rxjs/operators';
 import {Game} from '@src/app/models/game';
 import {BehaviorSubject, Subscription} from 'rxjs';
+import {isSome} from 'fp-ts/es6/Option';
 
 @Component({
   selector: 'pnp-game',
@@ -17,10 +18,17 @@ import {BehaviorSubject, Subscription} from 'rxjs';
 })
 export class GameComponent implements OnInit, OnDestroy {
 
+  constructor(
+      public gameService: GameService,
+      public auth: AuthService,
+  ) {
+  }
+
   game$ = new BehaviorSubject<Game | null>(null);
-  onlineGame$ = this.auth.getUser().pipe(
-      tap(user => this.game$.next(this.newGame(user.uid))),
-      switchMap(user => this.gameService.getGame(user.uid)),
+  onlineGame$ = this.auth.currentUser$.pipe(
+      filter(u => u !== null),
+      filter(isSome),
+      switchMap(user => this.gameService.getGame(user.value.uid)),
   );
   private onlineGameSubscription: Subscription | null = null;
   svgScalingFactor = 25;
@@ -35,12 +43,6 @@ export class GameComponent implements OnInit, OnDestroy {
   edgeStrokes$ = this.game$.pipe(
       map(game => game.graph.edges.map(() => this.defaultEdgeStroke)),
   );
-
-  constructor(
-      public gameService: GameService,
-      public auth: AuthService,
-  ) {
-  }
 
   currentPlayer(game: Game) {
     return game.players[game.currentPlayerIdx];

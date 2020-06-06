@@ -1,24 +1,24 @@
 import {Injectable} from '@angular/core';
 import {User} from '@src/app/models/user';
-import {Observable} from 'rxjs';
+import {BehaviorSubject} from 'rxjs';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {auth} from 'firebase';
+import {fromNullable, Option} from 'fp-ts/es6/Option';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
 
-  private user$: Observable<User>;
+  private currentUser = new BehaviorSubject<Option<User> | null>(null);
+  currentUser$ = this.currentUser.asObservable();
 
   constructor(
-      private fireAuth: AngularFireAuth,
+      public fireAuth: AngularFireAuth,
   ) {
-    this.user$ = this.fireAuth.authState;
-  }
-
-  getUser(): Observable<User> {
-    return this.user$;
+    fireAuth.authState.subscribe(user =>
+        this.currentUser.next(fromNullable(user)),
+    );
   }
 
   async googleSignin() {

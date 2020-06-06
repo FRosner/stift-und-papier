@@ -1,30 +1,24 @@
-<div *ngIf="auth.user$ | async; then authenticated else guest">
-</div>
-
-<ng-template #guest>
-    <h1>
-        Welcome to {{ title }}, fam!
-    </h1>
-    <p>Login to get started...</p>
-
-    <button (click)="auth.googleSignin()">
-        <i class="fa fa-google"></i> Connect Google
-    </button>
-
-</ng-template>
-
-<ng-template #authenticated>
-    <div *ngIf="auth.getUser() | async as user">
+<div *ngIf="auth.currentUser$ | async as currentUser; else loadingView">
+    <div *ifSome="currentUser; else loginView; let user">
         <h1>
             Welcome to {{ title }}, {{ user.displayName }}!
         </h1>
         <img [src]="user.photoURL">
         <p>UID: {{ user.uid }}</p>
         <button (click)="auth.signOut()">Logout</button>
+        <ul>
+            <li><a routerLink="/game">New offline k-Squares Game</a></li>
+            <li><a [routerLink]="'/game/' + user.uid">New online k-Squares Game</a></li>
+        </ul>
     </div>
-</ng-template>
 
-<ul>
-    <li><a routerLink="/game">New offline k-Squares Game</a></li>
-    <li *ngIf="auth.getUser() | async as user"><a [routerLink]="'/game/' + user.uid">New online k-Squares Game</a></li>
-</ul>
+    <ng-template #loginView>
+        <button (click)="auth.googleSignin()">
+            <i class="fa fa-google"></i> Connect Google
+        </button>
+    </ng-template>
+</div>
+
+<ng-template #loadingView>
+    Loading...
+</ng-template>

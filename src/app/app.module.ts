@@ -8,6 +8,7 @@ import {GameComponent} from '@src/app/components/game/game.component';
 import {AngularFireModule} from '@angular/fire';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
+import {NgxFpTsModule} from 'ngx-fp-ts';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBNRNNjzZlZihD9CjZHwf8V4tT2PWMY5-I',
@@ -31,6 +32,7 @@ const firebaseConfig = {
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireAuthModule,
     AngularFirestoreModule,
+    NgxFpTsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
