@@ -1,56 +1,55 @@
-<div>{{onlineGame$ | async | json}}</div>
 <ng-container *ngIf="game$ | async as game">
     <ng-container *ngIf="viewBox$ | async as viewBox">
-    <ng-container *ngIf="edgeStrokes$ | async as edgeStrokes">
-        <svg
-                width="100%"
-                height="100vh"
-                [attr.viewBox]="'0 0 ' + viewBox.width + ' ' + viewBox.height"
-        >
-            <!--TODO The score should be moved out of the SVG-->
-            <g *ngFor="let player of game.players">
-                <text
-                        [attr.id]="'score-' + player.id"
-                        [attr.x]="6"
-                        [attr.y]="4 + player.id * 4"
-                        [attr.fill]="player.color"
-                        [attr.font-weight]="(player === currentPlayer) ? 'bold' : 'normal'"
-                        font-size="2px"
-                >
-                    {{player.name}}: {{player.score}}
-                </text>
-            </g>
+        <ng-container *ngIf="edgeStrokes$ | async as edgeStrokes">
+            <svg
+                    width="100%"
+                    height="100vh"
+                    [attr.viewBox]="'0 0 ' + viewBox.width + ' ' + viewBox.height"
+            >
+                <!--TODO The score should be moved out of the SVG-->
+                <g *ngFor="let player of game.players">
+                    <text
+                            [attr.id]="'score-' + player.id"
+                            [attr.x]="6"
+                            [attr.y]="4 + player.id * 4"
+                            [attr.fill]="player.color"
+                            [attr.font-weight]="(player === currentPlayer) ? 'bold' : 'normal'"
+                            font-size="2px"
+                    >
+                        {{player.name}}: {{player.score}}
+                    </text>
+                </g>
 
-            <g *ngFor="let square of game.squares">
-                <polygon
-                        [attr.id]="'square-' + square.topLeft.x + '-' + square.topLeft.y"
-                        [attr.points]="scalePosition(square.topLeft.x) + ',' + scalePosition(square.topLeft.y) + ' ' + scalePosition(square.topRight.x) + ',' + scalePosition(square.topRight.y) + ' ' + scalePosition(square.bottomRight.x) + ',' + scalePosition(square.bottomRight.y) + ' ' + scalePosition(square.bottomLeft.x) + ',' + scalePosition(square.bottomLeft.y) + ' '"
-                        [attr.fill]="(square.owner) ? square.owner.color : '#ccc'"
-                        fill-opacity="0.5"
-                ></polygon>
-            </g>
-            <g *ngFor="let edge of game.graph.edges; let i = index">
-                <line
-                        stroke-width="2"
-                        [attr.x1]="scalePosition(edge.source.x)"
-                        [attr.y1]="scalePosition(edge.source.y)"
-                        [attr.x2]="scalePosition(edge.target.x)"
-                        [attr.y2]="scalePosition(edge.target.y)"
-                        [attr.stroke]="(edge.owner) ? edge.owner.color : edgeStrokes[i]"
-                        [attr.id]="'edge-' + edge.source.x + '-' + edge.source.y + '-' + edge.target.x + '-' + edge.target.x"
-                        (click)="drawEdge(edge, game)"
-                        (mouseover)="edgeStrokes[i] = currentPlayer(game).color"
-                        (mouseout)="edgeStrokes[i] = defaultEdgeStroke"
-                ></line>
-            </g>
-            <g *ngFor="let vertex of game.graph.vertices">
-                <circle
-                        [attr.cx]="scalePosition(vertex.x)"
-                        [attr.cy]="scalePosition(vertex.y)"
-                        fill="#444"
-                        r="1.5"
-                ></circle>
-            </g>
-        </svg>
+                <g *ngFor="let square of game.squares">
+                    <polygon
+                            [attr.id]="'square-' + square.topLeft.x + '-' + square.topLeft.y"
+                            [attr.points]="scalePosition(square.topLeft.x) + ',' + scalePosition(square.topLeft.y) + ' ' + scalePosition(square.topRight.x) + ',' + scalePosition(square.topRight.y) + ' ' + scalePosition(square.bottomRight.x) + ',' + scalePosition(square.bottomRight.y) + ' ' + scalePosition(square.bottomLeft.x) + ',' + scalePosition(square.bottomLeft.y) + ' '"
+                            [attr.fill]="(square.owner) ? square.owner.color : '#ccc'"
+                            fill-opacity="0.5"
+                    ></polygon>
+                </g>
+                <g *ngFor="let edge of game.graph.edges; let i = index">
+                    <line
+                            stroke-width="2"
+                            [attr.x1]="scalePosition(edge.source.x)"
+                            [attr.y1]="scalePosition(edge.source.y)"
+                            [attr.x2]="scalePosition(edge.target.x)"
+                            [attr.y2]="scalePosition(edge.target.y)"
+                            [attr.stroke]="(edge.owner) ? edge.owner.color : edgeStrokes[i]"
+                            [attr.id]="'edge-' + edge.source.x + '-' + edge.source.y + '-' + edge.target.x + '-' + edge.target.x"
+                            (click)="drawEdge(edge, game)"
+                            (mouseover)="edgeStrokes[i] = currentPlayer(game).color"
+                            (mouseout)="edgeStrokes[i] = defaultEdgeStroke"
+                    ></line>
+                </g>
+                <g *ngFor="let vertex of game.graph.vertices">
+                    <circle
+                            [attr.cx]="scalePosition(vertex.x)"
+                            [attr.cy]="scalePosition(vertex.y)"
+                            fill="#444"
+                            r="1.5"
+                    ></circle>
+                </g>
+            </svg>
+        </ng-container>
     </ng-container>
-</ng-container>
