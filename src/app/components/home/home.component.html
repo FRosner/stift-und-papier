@@ -1,22 +1,26 @@
-<div *ngIf="auth.currentUser$ | async as currentUser; else loadingView">
-    <div *ifSome="currentUser; else loginView; let user">
-        <h1>
-            Welcome to {{ title }}, {{ user.displayName }}!
-        </h1>
-        <img [src]="user.photoURL">
-        <p>UID: {{ user.uid }}</p>
-        <button (click)="auth.signOut()">Logout</button>
-        <ul>
-            <li><a routerLink="/game">New offline k-Squares Game</a></li>
-            <li><a [routerLink]="'/game/' + user.uid">New online k-Squares Game</a></li>
-        </ul>
-    </div>
+<div id="container">
+    <div *ngIf="auth.currentUser$ | async as currentUser; else loadingView">
+        <div *ifSome="currentUser; else loginView; let user">
+            <h1>
+                Welcome to {{ title }}, {{ user.displayName }}!
+            </h1>
+            <p>
+                <button routerLink="/game">New offline k-Squares Game</button>
+            </p>
+            <p>
+                <button (click)="auth.signOut()">Logout</button>
+            </p>
+        </div>
 
-    <ng-template #loginView>
-        <button (click)="auth.googleSignin()">
-            <i class="fa fa-google"></i> Connect Google
-        </button>
-    </ng-template>
+        <ng-template #loginView>
+            <h1>
+                Welcome to {{ title }}, fam!
+            </h1>
+            <button (click)="auth.googleSignin()">
+                Login with Google
+            </button>
+        </ng-template>
+    </div>
 </div>
 
 <ng-template #loadingView>
