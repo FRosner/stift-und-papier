@@ -31,19 +31,19 @@ describe('GameComponent', () => {
 
   beforeEach(async () => {
     const graph = Graph.initialize(5, 5);
-    player1 = new Player(0, 'Alice', 'royalblue', 0);
-    player2 = new Player(1, 'Bob', '#F08080', 0);
+    player1 = Player.create(0, 'Alice', 'royalblue', 0);
+    player2 = Player.create(1, 'Bob', '#F08080', 0);
     gameService.getGame.and.returnValue(from(Promise.resolve(
-        new Game(
-            '1234',
-            graph,
-            Square.fromGraph(graph),
-            [
-              player1,
-              player2,
-            ],
-            0,
-        ),
+        <Game>{
+          id: '1234',
+          graph: graph,
+          squares: Square.fromGraph(graph),
+          players: [
+            player1,
+            player2,
+          ],
+          currentPlayerIdx: 0,
+        },
     )));
     authService.getUser.and.returnValue(from(Promise.resolve(
         <User>{

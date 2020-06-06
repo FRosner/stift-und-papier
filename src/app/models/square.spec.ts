@@ -20,11 +20,11 @@ describe('Square', () => {
       const graph = Graph.initialize(2, 2);
       const squares = Square.fromGraph(graph);
       expect(squares).toEqual([
-        new Square(
-            new Vertex(0, 0, 0),
-            new Vertex(1, 1, 0),
-            new Vertex(2, 0, 1),
-            new Vertex(3, 1, 1),
+        Square.create(
+            Vertex.create(0, 0, 0),
+            Vertex.create(1, 1, 0),
+            Vertex.create(2, 0, 1),
+            Vertex.create(3, 1, 1),
             null,
         ),
       ]);
@@ -34,46 +34,46 @@ describe('Square', () => {
       const graph = Graph.initialize(4, 3);
       const squares = Square.fromGraph(graph);
       expect(squares).toEqual(jasmine.arrayContaining([
-        new Square(
-            new Vertex(0, 0, 0),
-            new Vertex(1, 1, 0),
-            new Vertex(4, 0, 1),
-            new Vertex(5, 1, 1),
+        Square.create(
+            Vertex.create(0, 0, 0),
+            Vertex.create(1, 1, 0),
+            Vertex.create(4, 0, 1),
+            Vertex.create(5, 1, 1),
             null,
         ),
-        new Square(
-            new Vertex(1, 1, 0),
-            new Vertex(2, 2, 0),
-            new Vertex(5, 1, 1),
-            new Vertex(6, 2, 1),
+        Square.create(
+            Vertex.create(1, 1, 0),
+            Vertex.create(2, 2, 0),
+            Vertex.create(5, 1, 1),
+            Vertex.create(6, 2, 1),
             null,
         ),
-        new Square(
-            new Vertex(2, 2, 0),
-            new Vertex(3, 3, 0),
-            new Vertex(6, 2, 1),
-            new Vertex(7, 3, 1),
+        Square.create(
+            Vertex.create(2, 2, 0),
+            Vertex.create(3, 3, 0),
+            Vertex.create(6, 2, 1),
+            Vertex.create(7, 3, 1),
             null,
         ),
-        new Square(
-            new Vertex(4, 0, 1),
-            new Vertex(5, 1, 1),
-            new Vertex(8, 0, 2),
-            new Vertex(9, 1, 2),
+        Square.create(
+            Vertex.create(4, 0, 1),
+            Vertex.create(5, 1, 1),
+            Vertex.create(8, 0, 2),
+            Vertex.create(9, 1, 2),
             null,
         ),
-        new Square(
-            new Vertex(5, 1, 1),
-            new Vertex(6, 2, 1),
-            new Vertex(9, 1, 2),
-            new Vertex(10, 2, 2),
+        Square.create(
+            Vertex.create(5, 1, 1),
+            Vertex.create(6, 2, 1),
+            Vertex.create(9, 1, 2),
+            Vertex.create(10, 2, 2),
             null,
         ),
-        new Square(
-            new Vertex(6, 2, 1),
-            new Vertex(7, 3, 1),
-            new Vertex(10, 2, 2),
-            new Vertex(11, 3, 2),
+        Square.create(
+            Vertex.create(6, 2, 1),
+            Vertex.create(7, 3, 1),
+            Vertex.create(10, 2, 2),
+            Vertex.create(11, 3, 2),
             null,
         ),
       ]));

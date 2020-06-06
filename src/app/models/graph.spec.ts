@@ -14,7 +14,7 @@ describe('Graph', () => {
     it('should initialize a graph with a single node', () => {
       const graph = Graph.initialize(1, 1);
       expect(graph.vertices).toEqual([
-        new Vertex(0, 0, 0),
+        Vertex.create(0, 0, 0),
       ]);
       expect(graph.edges).toEqual([]);
     });
@@ -22,18 +22,18 @@ describe('Graph', () => {
     it('should initialize a non-empty graph', () => {
       const graph = Graph.initialize(4, 3);
       expect(graph.vertices).toEqual([
-        new Vertex(0, 0, 0),
-        new Vertex(1, 1, 0),
-        new Vertex(2, 2, 0),
-        new Vertex(3, 3, 0),
-        new Vertex(4, 0, 1),
-        new Vertex(5, 1, 1),
-        new Vertex(6, 2, 1),
-        new Vertex(7, 3, 1),
-        new Vertex(8, 0, 2),
-        new Vertex(9, 1, 2),
-        new Vertex(10, 2, 2),
-        new Vertex(11, 3, 2),
+        Vertex.create(0, 0, 0),
+        Vertex.create(1, 1, 0),
+        Vertex.create(2, 2, 0),
+        Vertex.create(3, 3, 0),
+        Vertex.create(4, 0, 1),
+        Vertex.create(5, 1, 1),
+        Vertex.create(6, 2, 1),
+        Vertex.create(7, 3, 1),
+        Vertex.create(8, 0, 2),
+        Vertex.create(9, 1, 2),
+        Vertex.create(10, 2, 2),
+        Vertex.create(11, 3, 2),
       ]);
       expect(graph.edges).toEqual(jasmine.arrayContaining([
         Edge.initialize(graph.vertices[0], graph.vertices[1]),
@@ -58,22 +58,22 @@ describe('Graph', () => {
   });
 
   describe('findPath', () => {
-    const player = new Player(0, 'currentPlayer', 'green', 0);
+    const player = Player.create(0, 'currentPlayer', 'green', 0);
 
     it('should not detect a path if there is none due to missing ownership in a trivial graph', () => {
       const graph = Graph.initialize(1, 2);
-      expect(graph.findPath(graph.vertices[0], graph.vertices[1])).toEqual([]);
+      expect(Graph.findPath(graph, graph.vertices[0], graph.vertices[1])).toEqual([]);
     });
 
     it('should detect an existing path in a trivial graph', () => {
       const graph = Graph.initialize(1, 2);
       graph.edges[0].owner = player;
-      expect(graph.findPath(graph.vertices[0], graph.vertices[1])).toEqual([graph.vertices[0], graph.vertices[1]]);
+      expect(Graph.findPath(graph, graph.vertices[0], graph.vertices[1])).toEqual([graph.vertices[0], graph.vertices[1]]);
     });
 
     it('should not detect a path if there is none due to missing ownership in a complex graph', () => {
       const graph = Graph.initialize(100, 100);
-      expect(graph.findPath(graph.vertices[0], graph.vertices[99])).toEqual([]);
+      expect(Graph.findPath(graph, graph.vertices[0], graph.vertices[99])).toEqual([]);
     });
 
     it('should detect an existing path in a complex graph', () => {
@@ -89,7 +89,7 @@ describe('Graph', () => {
         edge.owner = player;
         expectedPath.push(edge.target);
       }
-      expect(graph.findPath(graph.vertices[0], graph.vertices[graph.vertices.length - 1])).toEqual(expectedPath);
+      expect(Graph.findPath(graph, graph.vertices[0], graph.vertices[graph.vertices.length - 1])).toEqual(expectedPath);
     });
   });
 });

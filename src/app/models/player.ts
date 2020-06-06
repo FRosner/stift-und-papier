@@ -1,10 +1,15 @@
-export class Player {
-  constructor(public id: number, public name: string, public color: string, public score: number) {
-  }
-
-  public serialize() {
-    return {
-      ...this,
-    };
-  }
+export interface Player {
+  id: number;
+  name: string;
+  color: string;
+  score: number;
 }
+
+export const Player = {
+  create: (id: number, name: string, color: string, score: number) => <Player>{
+    id: id,
+    name: name,
+    color: color,
+    score: score,
+  },
+};

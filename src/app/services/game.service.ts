@@ -24,7 +24,7 @@ export class GameService {
     return gameDoc.get().pipe(
         switchMap(g => {
           if (!g.exists) {
-            return from(gameDoc.set(this.newGame(userId).serialize()));
+            return from(gameDoc.set(this.newGame(userId)));
           } else {
             return from(Promise.resolve());
           }
@@ -34,21 +34,21 @@ export class GameService {
   }
 
   setGame(game: Game): Promise<void> {
-    return this.gamesCollection.doc<Game>(game.id).set(game.serialize());
+    return this.gamesCollection.doc<Game>(game.id).set(game);
   }
 
   private newGame(id: string): Game {
     const graph = Graph.initialize(5, 5);
-    return new Game(
-        id,
-        graph,
-        Square.fromGraph(graph),
-        [
-          new Player(0, 'Alice', 'royalblue', 0),
-          new Player(1, 'Bob', '#F08080', 0),
-        ],
-        0,
-    );
+    return <Game>{
+      id: id,
+      graph: graph,
+      squares: Square.fromGraph(graph),
+      players: [
+        Player.create(0, 'Alice', 'royalblue', 0),
+        Player.create(1, 'Bob', '#F08080', 0),
+      ],
+      currentPlayerIdx: 0,
+    };
   }
 
 }

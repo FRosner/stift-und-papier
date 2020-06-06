@@ -1,14 +1,13 @@
-export class Vertex {
-  constructor(
-      public id: number,
-      public x: number,
-      public y: number,
-  ) {
-  }
-
-  public serialize() {
-    return {
-      ...this,
-    };
-  }
+export interface Vertex {
+  id: number;
+  x: number;
+  y: number;
 }
+
+export const Vertex = {
+  create: (id: number, x: number, y: number) => <Vertex>{
+    id: id,
+    x: x,
+    y: y,
+  },
+};

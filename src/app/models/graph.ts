@@ -3,22 +3,18 @@ import {Edge} from '@src/app/models/edge';
 import {Utils} from '@src/app/utils';
 import {SearchVertex} from '@src/app/models/search-vertex';
 
-export class Graph {
-  constructor(public vertices: Vertex[], public edges: Edge[], public xSize: number, public ySize: number) {
-  }
+export interface Graph {
+  vertices: Vertex[];
+  edges: Edge[];
+  xSize: number;
+  ySize: number;
+}
 
-  public serialize() {
-    return {
-      ...this,
-      vertices: this.vertices.map(v => v.serialize()),
-      edges: this.edges.map(e => e.serialize()),
-    };
-  }
-
-  public static initialize(xSize: number, ySize: number): Graph {
+export const Graph = {
+  initialize: (xSize: number, ySize: number) => {
     const vertices = Array.from(Array(xSize * ySize).keys())
         .map(i =>
-            new Vertex(
+            Vertex.create(
                 i,
                 i % xSize,
                 Math.floor(i / xSize),
@@ -37,15 +33,15 @@ export class Graph {
           return e;
         },
     );
-    return new Graph(
-        vertices,
-        edges,
-        xSize,
-        ySize,
-    );
-  }
+    return <Graph>{
+      vertices: vertices,
+      edges: edges,
+      xSize: xSize,
+      ySize: ySize,
+    };
+  },
 
-  public findPath(start: Vertex, end: Vertex): Vertex[] {
+  findPath: (graph: Graph, start: Vertex, end: Vertex) => {
     let found = false;
     const pathStack: Vertex[] = [];
     let finalPath: Vertex[] = [];
@@ -68,14 +64,14 @@ export class Graph {
       pathStack.pop();
     }
 
-    const searchGraph = this.vertices.map(SearchVertex.fromVertex);
-    this.edges.filter(Edge.isOwned)
+    const searchGraph = graph.vertices.map(SearchVertex.fromVertex);
+    graph.edges.filter(Edge.isOwned)
         .forEach(edge => {
           searchGraph[edge.source.id].neighbors.push(searchGraph[edge.target.id]);
           searchGraph[edge.target.id].neighbors.push(searchGraph[edge.source.id]);
         });
     search(searchGraph[start.id]);
     return finalPath;
-  }
+  },
+};
 
-}

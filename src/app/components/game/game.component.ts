@@ -8,7 +8,7 @@ import {GameService} from '@src/app/services/game.service';
 import {AuthService} from '@src/app/services/auth.service';
 import {map, switchMap, tap} from 'rxjs/operators';
 import {Game} from '@src/app/models/game';
-import {BehaviorSubject, Subject} from 'rxjs';
+import {BehaviorSubject} from 'rxjs';
 
 @Component({
   selector: 'pnp-game',
@@ -17,27 +17,27 @@ import {BehaviorSubject, Subject} from 'rxjs';
 })
 export class GameComponent implements OnInit {
 
-  game$ = new BehaviorSubject<Game|null>(null);
+  game$ = new BehaviorSubject<Game | null>(null);
   onlineGame$ = this.auth.getUser().pipe(
-    tap(user => this.game$.next(this.newGame(user.uid))),
-    switchMap(user => this.gameService.getGame(user.uid)),
+      tap(user => this.game$.next(this.newGame(user.uid))),
+      switchMap(user => this.gameService.getGame(user.uid)),
   );
   svgScalingFactor = 25;
   viewBox$ = this.game$.pipe(
-    map(game => ({
-        width: game.graph.xSize * this.svgScalingFactor,
-        height: game.graph.ySize * this.svgScalingFactor,
-      }),
-    ),
+      map(game => ({
+            width: game.graph.xSize * this.svgScalingFactor,
+            height: game.graph.ySize * this.svgScalingFactor,
+          }),
+      ),
   );
   defaultEdgeStroke = '#ccc';
   edgeStrokes$ = this.game$.pipe(
-    map( game => game.graph.edges.map(() => this.defaultEdgeStroke)),
+      map(game => game.graph.edges.map(() => this.defaultEdgeStroke)),
   );
 
   constructor(
-    public gameService: GameService,
-    public auth: AuthService,
+      public gameService: GameService,
+      public auth: AuthService,
   ) {
   }
 
@@ -52,10 +52,10 @@ export class GameComponent implements OnInit {
   drawEdge(edge: Edge, game: Game) {
     if (!Edge.isOwned(edge)) {
       const player = this.currentPlayer(game);
-      const path = game.graph.findPath(edge.source, edge.target);
+      const path = Graph.findPath(game.graph, edge.source, edge.target);
       if (path.length > 0) {
         const polygon = Polygon.fromPath(path);
-        const wonSquares = game.squares.filter(square => polygon.contains(square) && !square.isOwned());
+        const wonSquares = game.squares.filter(square => polygon.contains(square) && !Square.isOwned(square));
         wonSquares.forEach(square => square.owner = player);
         player.score += wonSquares.length;
       } else {
@@ -77,16 +77,16 @@ export class GameComponent implements OnInit {
 
   newGame(gameId: string): Game {
     const graph = Graph.initialize(5, 5);
-    return new Game(
-      gameId,
-      graph,
-      Square.fromGraph(graph),
-      [
-        new Player(0, 'Alice', 'royalblue', 0),
-        new Player(1, 'Bob', '#F08080', 0),
+    return <Game>{
+      id: gameId,
+      graph: graph,
+      squares: Square.fromGraph(graph),
+      players: [
+        Player.create(0, 'Alice', 'royalblue', 0),
+        Player.create(1, 'Bob', '#F08080', 0),
       ],
-      0,
-    );
+      currentPlayerIdx: 0,
+    };
   }
 
   ngOnInit() {
