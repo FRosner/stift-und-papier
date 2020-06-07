@@ -20,6 +20,8 @@ import {
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MenuBarComponent} from '@src/app/components/menu-bar/menu-bar.component';
+import {AuthService} from '@src/app/services/auth.service';
+import {GameService} from '@src/app/services/game.service';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBNRNNjzZlZihD9CjZHwf8V4tT2PWMY5-I',
@@ -54,7 +56,10 @@ const firebaseConfig = {
     BrowserAnimationsModule,
     FontAwesomeModule,
   ],
-  providers: [],
+  providers: [
+    AuthService,
+    GameService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {
