@@ -3,3 +3,7 @@
     flex-shrink: 1;
     flex-basis: auto;
 }
+
+.menu-icon {
+    margin-right: 0.5em;
+}

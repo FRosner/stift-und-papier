@@ -7,7 +7,13 @@
         <fa-icon [icon]="faBars" size="lg"></fa-icon>
     </button>
     <mat-menu #appMenu="matMenu">
-        <a mat-menu-item routerLink="/home">Home</a>
-        <button mat-menu-item (click)="resetGame()">Restart Game</button>
+        <a mat-menu-item routerLink="/home">
+            <fa-icon class="menu-icon" [icon]="faHome"></fa-icon>
+            Home
+        </a>
+        <button mat-menu-item (click)="resetGame()">
+            <fa-icon class="menu-icon" [icon]="faSync"></fa-icon>
+            Restart Game
+        </button>
     </mat-menu>
 </mat-toolbar>

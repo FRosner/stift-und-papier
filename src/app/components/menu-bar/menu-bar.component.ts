@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {faBars} from '@fortawesome/free-solid-svg-icons';
+import {faBars, faHome, faSync} from '@fortawesome/free-solid-svg-icons';
 import {GameService} from '@src/app/services/game.service';
 import {AuthService} from '@src/app/services/auth.service';
 import {first} from 'rxjs/operators';
@@ -18,6 +18,8 @@ export class MenuBarComponent implements OnInit {
   title: string;
 
   faBars = faBars;
+  faHome = faHome;
+  faSync = faSync;
 
   constructor(
       private gameService: GameService,
