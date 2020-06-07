@@ -9,8 +9,17 @@ import {AngularFireModule} from '@angular/fire';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {NgxFpTsModule} from 'ngx-fp-ts';
-import {MatButtonModule, MatButtonToggleModule, MatCardModule, MatProgressSpinnerModule} from '@angular/material';
+import {
+  MatButtonModule,
+  MatButtonToggleModule,
+  MatCardModule,
+  MatMenuModule,
+  MatProgressSpinnerModule,
+  MatToolbarModule
+} from '@angular/material';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MenuBarComponent} from '@src/app/components/menu-bar/menu-bar.component';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBNRNNjzZlZihD9CjZHwf8V4tT2PWMY5-I',
@@ -27,6 +36,7 @@ const firebaseConfig = {
     AppComponent,
     HomeComponent,
     GameComponent,
+    MenuBarComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,6 +49,9 @@ const firebaseConfig = {
     MatCardModule,
     MatButtonToggleModule,
     MatButtonModule,
+    MatToolbarModule,
+    MatMenuModule,
+    BrowserAnimationsModule,
     FontAwesomeModule,
   ],
   providers: [],

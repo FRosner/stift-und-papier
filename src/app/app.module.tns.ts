@@ -5,6 +5,7 @@ import {AppRoutingModule} from '@src/app/app-routing.module';
 import {AppComponent} from '@src/app/app.component';
 import {HomeComponent} from '@src/app/components/home/home.component';
 import {GameComponent} from '@src/app/components/game/game.component';
+import { MenuBarComponent } from '@src/app/components/menu-bar/menu-bar.component';
 
 
 // Uncomment and add to NgModule imports if you need to use two-way binding
@@ -18,6 +19,7 @@ import {GameComponent} from '@src/app/components/game/game.component';
     AppComponent,
     HomeComponent,
     GameComponent,
+    MenuBarComponent,
   ],
   imports: [
     NativeScriptModule,
