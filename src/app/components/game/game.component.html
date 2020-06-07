@@ -13,7 +13,7 @@
                             [attr.x]="6"
                             [attr.y]="4 + player.id * 4"
                             [attr.fill]="player.color"
-                            [attr.font-weight]="(player === currentPlayer) ? 'bold' : 'normal'"
+                            [attr.font-weight]="(player === currentPlayer(game)) ? 'bold' : 'normal'"
                             font-size="2px"
                     >
                         {{player.name}}: {{player.score}}
