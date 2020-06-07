@@ -1,6 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Graph} from '@src/app/models/graph';
-import {Player} from '@src/app/models/player';
 import {Edge} from '@src/app/models/edge';
 import {Square} from '@src/app/models/square';
 import {Polygon} from '@src/app/models/polygon';
@@ -8,7 +7,6 @@ import {GameService} from '@src/app/services/game.service';
 import {AuthService} from '@src/app/services/auth.service';
 import {filter, map, switchMap} from 'rxjs/operators';
 import {Game} from '@src/app/models/game';
-import {BehaviorSubject, Subscription} from 'rxjs';
 import {isSome} from 'fp-ts/es6/Option';
 
 @Component({
@@ -24,13 +22,11 @@ export class GameComponent implements OnInit, OnDestroy {
   ) {
   }
 
-  game$ = new BehaviorSubject<Game | null>(null);
-  onlineGame$ = this.auth.currentUser$.pipe(
+  game$ = this.auth.currentUser$.pipe(
       filter(u => u !== null),
       filter(isSome),
       switchMap(user => this.gameService.getGame(user.value.uid)),
   );
-  private onlineGameSubscription: Subscription | null = null;
   svgScalingFactor = 25;
   viewBox$ = this.game$.pipe(
       map(game => ({
@@ -65,7 +61,6 @@ export class GameComponent implements OnInit, OnDestroy {
         this.nextPlayer(game);
       }
       edge.owner = player;
-      this.game$.next(game);
       this.gameService.setGame(game);
     }
   }
@@ -78,28 +73,10 @@ export class GameComponent implements OnInit, OnDestroy {
     }
   }
 
-  newGame(gameId: string): Game {
-    const graph = Graph.initialize(5, 5);
-    return <Game>{
-      id: gameId,
-      graph: graph,
-      squares: Square.fromGraph(graph),
-      players: [
-        Player.create(0, 'Alice', 'royalblue', 0),
-        Player.create(1, 'Bob', '#F08080', 0),
-      ],
-      currentPlayerIdx: 0,
-    };
-  }
-
   ngOnInit() {
-    this.onlineGameSubscription = this.onlineGame$.subscribe(this.game$);
   }
 
   ngOnDestroy() {
-    if (this.onlineGameSubscription) {
-      this.onlineGameSubscription.unsubscribe();
-    }
   }
 
 }
