@@ -24,7 +24,7 @@ export class GameService {
     return gameDoc.get().pipe(
         switchMap(g => {
           if (!g.exists) {
-            return from(gameDoc.set(this.newGame(userId)));
+            return from(this.resetGame(userId));
           } else {
             return from(Promise.resolve());
           }
@@ -33,11 +33,15 @@ export class GameService {
     );
   }
 
+  resetGame(userId: string): Promise<void> {
+    return this.gamesCollection.doc<Game>(userId).set(this.initializeGame(userId));
+  }
+
   setGame(game: Game): Promise<void> {
     return this.gamesCollection.doc<Game>(game.id).set(game);
   }
 
-  private newGame(id: string): Game {
+  private initializeGame(id: string): Game {
     const graph = Graph.initialize(5, 5);
     return <Game>{
       id: id,
