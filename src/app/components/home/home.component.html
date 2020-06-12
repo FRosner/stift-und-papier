@@ -1,12 +1,12 @@
 <div id="container">
-    <div *ngIf="auth.currentUser$ | async as currentUser; else loadingView">
-        <div *ifSome="currentUser; else loginView; let user">
-            <mat-card>
+    <div *ngIf="auth.currentUser$ | async as currentUser">
+        <div [ngSwitch]="currentUser.type">
+            <mat-card *ngSwitchCase="userState.LOGGED_IN">
                 <mat-card-title>
                     {{ title }}
                 </mat-card-title>
                 <p>
-                    Welcome, {{ user.displayName }}!
+                    Welcome, {{ currentUser.user.displayName }}!
                 </p>
                 <p>
                     <a mat-raised-button routerLink="/game">
@@ -21,10 +21,8 @@
                     </button>
                 </p>
             </mat-card>
-        </div>
 
-        <ng-template #loginView>
-            <mat-card>
+            <mat-card *ngSwitchCase="userState.NOT_LOGGED_IN">
                 <mat-card-title>
                     {{ title }}
                 </mat-card-title>
@@ -33,10 +31,8 @@
                     Login with Google
                 </button>
             </mat-card>
-        </ng-template>
+
+            <mat-progress-spinner *ngSwitchCase="userState.LOADING" mode="indeterminate"></mat-progress-spinner>
+        </div>
     </div>
 </div>
-
-<ng-template #loadingView>
-    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-</ng-template>

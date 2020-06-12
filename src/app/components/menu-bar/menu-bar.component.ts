@@ -2,10 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import {faBars, faHome, faSync} from '@fortawesome/free-solid-svg-icons';
 import {GameService} from '@src/app/services/game.service';
 import {AuthService} from '@src/app/services/auth.service';
-import {first} from 'rxjs/operators';
-import {getOrElse, map} from 'fp-ts/es6/Option';
-import {User} from '@src/app/models/user';
-import {pipe} from 'fp-ts/es6/pipeable';
+import {filter, map} from 'rxjs/operators';
+import {isLoggedIn} from '@src/app/models/user-state';
 
 @Component({
   selector: 'pnp-menu-bar',
@@ -22,18 +20,16 @@ export class MenuBarComponent implements OnInit {
   faSync = faSync;
 
   constructor(
-      private gameService: GameService,
-      private authService: AuthService,
+    private gameService: GameService,
+    private authService: AuthService,
   ) {
   }
 
   async resetGame(): Promise<void> {
-    const currentUser = await this.authService.currentUser$.pipe(first()).toPromise();
-    return pipe(
-        currentUser,
-        map((user: User) => this.gameService.resetGame(user.uid)),
-        getOrElse(() => Promise.resolve()),
-    );
+    return await this.authService.currentUser$.pipe(
+      filter(isLoggedIn),
+      map(loggedIn => this.gameService.resetGame(loggedIn.user.uid)),
+    ).toPromise();
   }
 
   ngOnInit() {

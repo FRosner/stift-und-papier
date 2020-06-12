@@ -7,7 +7,7 @@ import {GameService} from '@src/app/services/game.service';
 import {AuthService} from '@src/app/services/auth.service';
 import {filter, map, switchMap} from 'rxjs/operators';
 import {Game} from '@src/app/models/game';
-import {isSome} from 'fp-ts/es6/Option';
+import {isLoggedIn, UserStateType} from '@src/app/models/user-state';
 
 @Component({
   selector: 'pnp-game',
@@ -17,28 +17,29 @@ import {isSome} from 'fp-ts/es6/Option';
 export class GameComponent implements OnInit, OnDestroy {
 
   constructor(
-      public gameService: GameService,
-      public auth: AuthService,
+    public gameService: GameService,
+    public auth: AuthService,
   ) {
   }
 
   game$ = this.auth.currentUser$.pipe(
-      filter(u => u !== null),
-      filter(isSome),
-      switchMap(user => this.gameService.getGame(user.value.uid)),
+    filter(isLoggedIn),
+    switchMap(loggedIn => this.gameService.getGame(loggedIn.user.uid)),
   );
   svgScalingFactor = 25;
   viewBox$ = this.game$.pipe(
-      map(game => ({
-            width: game.graph.xSize * this.svgScalingFactor,
-            height: game.graph.ySize * this.svgScalingFactor,
-          }),
-      ),
+    map(game => ({
+        width: game.graph.xSize * this.svgScalingFactor,
+        height: game.graph.ySize * this.svgScalingFactor,
+      }),
+    ),
   );
   defaultEdgeStroke = '#ccc';
   edgeStrokes$ = this.game$.pipe(
-      map(game => game.graph.edges.map(() => this.defaultEdgeStroke)),
+    map(game => game.graph.edges.map(() => this.defaultEdgeStroke)),
   );
+
+  userState = UserStateType;
 
   currentPlayer(game: Game) {
     return game.players[game.currentPlayerIdx];
@@ -78,5 +79,4 @@ export class GameComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
   }
-
 }

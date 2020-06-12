@@ -3,6 +3,7 @@ import {AuthService} from '@src/app/services/auth.service';
 import {GameService} from '@src/app/services/game.service';
 import {faGoogle} from '@fortawesome/free-brands-svg-icons';
 import {faSignOutAlt} from '@fortawesome/free-solid-svg-icons';
+import {UserStateType} from '@src/app/models/user-state';
 
 @Component({
   selector: 'pnp-home',
@@ -15,10 +16,12 @@ export class HomeComponent implements OnInit {
   logoutIcon = faSignOutAlt;
 
   constructor(
-      public auth: AuthService,
-      public game: GameService,
+    public auth: AuthService,
+    public game: GameService,
   ) {
   }
+
+  userState = UserStateType;
 
   ngOnInit() {
   }
