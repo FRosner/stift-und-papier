@@ -5,9 +5,10 @@ import {Square} from '@src/app/models/square';
 import {Polygon} from '@src/app/models/polygon';
 import {GameService} from '@src/app/services/game.service';
 import {AuthService} from '@src/app/services/auth.service';
-import {filter, map, switchMap} from 'rxjs/operators';
+import {map, switchMap} from 'rxjs/operators';
 import {Game} from '@src/app/models/game';
-import {isLoggedIn, UserStateType} from '@src/app/models/user-state';
+import {UserStateType} from '@src/app/models/user-state';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'pnp-game',
@@ -17,26 +18,26 @@ import {isLoggedIn, UserStateType} from '@src/app/models/user-state';
 export class GameComponent implements OnInit, OnDestroy {
 
   constructor(
-    public gameService: GameService,
-    public auth: AuthService,
+      public gameService: GameService,
+      public auth: AuthService,
+      private route: ActivatedRoute,
   ) {
   }
 
-  game$ = this.auth.currentUser$.pipe(
-    filter(isLoggedIn),
-    switchMap(loggedIn => this.gameService.getGame(loggedIn.user.uid)),
+  game$ = this.route.paramMap.pipe(
+      switchMap(params => this.gameService.getGame(params.get('id'))),
   );
   svgScalingFactor = 25;
   viewBox$ = this.game$.pipe(
-    map(game => ({
-        width: game.graph.xSize * this.svgScalingFactor,
-        height: game.graph.ySize * this.svgScalingFactor,
-      }),
-    ),
+      map(game => ({
+            width: game.graph.xSize * this.svgScalingFactor,
+            height: game.graph.ySize * this.svgScalingFactor,
+          }),
+      ),
   );
   defaultEdgeStroke = '#ccc';
   edgeStrokes$ = this.game$.pipe(
-    map(game => game.graph.edges.map(() => this.defaultEdgeStroke)),
+      map(game => game.graph.edges.map(() => this.defaultEdgeStroke)),
   );
 
   userState = UserStateType;

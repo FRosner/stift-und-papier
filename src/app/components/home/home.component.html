@@ -9,7 +9,7 @@
                     Welcome, {{ currentUser.user.displayName }}!
                 </p>
                 <p>
-                    <a mat-raised-button routerLink="/game">
+                    <a mat-raised-button [routerLink]="'/game/' + currentUser.user.uid">
                         📝
                         Play Dots and Boxes
                     </a>

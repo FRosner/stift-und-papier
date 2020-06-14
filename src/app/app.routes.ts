@@ -14,7 +14,7 @@ export const routes: Routes = [
     component: HomeComponent,
   },
   {
-    path: 'game',
+    path: 'game/:id',
     component: GameComponent,
   },
 ];
