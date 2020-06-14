@@ -25,9 +25,12 @@ svg {
 
 @keyframes flickerAnimation {
     0% {
+        opacity: 0.5;
+    }
+    33% {
         opacity: 1;
     }
-    50% {
+    66% {
         opacity: 0.5;
     }
     100% {
@@ -37,10 +40,13 @@ svg {
 
 @-o-keyframes flickerAnimation {
     0% {
+        opacity: 0.5;
+    }
+    33% {
         opacity: 1;
     }
-    50% {
-        opacity: 0.75;
+    66% {
+        opacity: 0.5;
     }
     100% {
         opacity: 1;
@@ -49,10 +55,13 @@ svg {
 
 @-moz-keyframes flickerAnimation {
     0% {
+        opacity: 0.5;
+    }
+    33% {
         opacity: 1;
     }
-    50% {
-        opacity: 0.75;
+    66% {
+        opacity: 0.5;
     }
     100% {
         opacity: 1;
@@ -61,10 +70,13 @@ svg {
 
 @-webkit-keyframes flickerAnimation {
     0% {
+        opacity: 0.5;
+    }
+    33% {
         opacity: 1;
     }
-    50% {
-        opacity: 0.75;
+    66% {
+        opacity: 0.5;
     }
     100% {
         opacity: 1;
@@ -72,8 +84,8 @@ svg {
 }
 
 .last-move {
-    -webkit-animation: flickerAnimation 2s 2;
-    -moz-animation: flickerAnimation 2s 2;
-    -o-animation: flickerAnimation 2s 2;
-    animation: flickerAnimation 2s 2;
+    -webkit-animation: flickerAnimation 2s 1;
+    -moz-animation: flickerAnimation 2s 1;
+    -o-animation: flickerAnimation 2s 1;
+    animation: flickerAnimation 2s 1;
 }

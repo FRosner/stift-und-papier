@@ -44,12 +44,13 @@
                             [attr.y1]="scalePosition(edge.source.y)"
                             [attr.x2]="scalePosition(edge.target.x)"
                             [attr.y2]="scalePosition(edge.target.y)"
+                            [attr.opacity]="edgeStyles[i].opacity"
                             [ngClass]="{'last-move': wasRecentlyDrawn(edge, game)}"
                             [attr.stroke]="(edge.owner) ? edge.owner.color : edgeStyles[i].stroke"
                             [attr.id]="'edge-' + edge.source.x + '-' + edge.source.y + '-' + edge.target.x + '-' + edge.target.x"
                             (click)="drawEdge(edge, game)"
-                            (mouseover)="edgeStyles[i] = {stroke: currentPlayer(game).color}"
-                            (mouseout)="edgeStyles[i] = {stroke: defaultEdgeStroke}"
+                            (mouseover)="edgeStyles[i] = {stroke: currentPlayer(game).color, opacity: 0.5}"
+                            (mouseout)="edgeStyles[i] = {stroke: defaultEdgeStroke, opacity: defaultEdgeOpacity}"
                     ></line>
                 </g>
                 <g *ngFor="let vertex of game.graph.vertices">

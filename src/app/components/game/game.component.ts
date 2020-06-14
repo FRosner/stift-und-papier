@@ -37,9 +37,11 @@ export class GameComponent implements OnInit, OnDestroy {
       ),
   );
   defaultEdgeStroke = '#ccc';
+  defaultEdgeOpacity = 1;
   edgeStrokes$ = this.game$.pipe(
       map(game => game.graph.edges.map(() => (<EdgeStyle>{
         stroke: this.defaultEdgeStroke,
+        opacity: this.defaultEdgeOpacity,
       }))),
   );
 
