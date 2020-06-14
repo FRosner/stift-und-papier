@@ -22,7 +22,7 @@ export class MenuBarComponent implements OnInit {
 
   constructor(
       private gameService: GameService,
-      private authService: AuthService,
+      public authService: AuthService,
   ) {
   }
 
