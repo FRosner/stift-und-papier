@@ -37,7 +37,6 @@ export class GameComponent implements OnInit, OnDestroy {
       ),
   );
   defaultEdgeStroke = '#ccc';
-  defaultEdgeDashArray = 2000;
   edgeStrokes$ = this.game$.pipe(
       map(game => game.graph.edges.map(() => (<EdgeStyle>{
         stroke: this.defaultEdgeStroke,
