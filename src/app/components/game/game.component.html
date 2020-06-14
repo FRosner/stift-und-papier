@@ -1,7 +1,7 @@
 <pnp-menu-bar
         title="Dots and Boxes">
 </pnp-menu-bar>
-<ng-container *ngIf="game$ | async as game">
+<ng-container *ngIf="game$ | async as game; else loading">
     <ng-container *ngIf="viewBox$ | async as viewBox">
         <ng-container *ngIf="edgeStrokes$ | async as edgeStrokes">
             <svg
@@ -55,3 +55,11 @@
         </ng-container>
     </ng-container>
 </ng-container>
+
+<ng-template #loading>
+    <div id="loading-container">
+        <div class="flex-center">
+            <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+        </div>
+    </div>
+</ng-template>
