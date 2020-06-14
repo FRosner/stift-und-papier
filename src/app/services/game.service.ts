@@ -52,6 +52,7 @@ export class GameService {
         Player.create(1, 'Bob', '#F08080', 0),
       ],
       currentPlayerIdx: 0,
+      moves: [],
     };
   }
 

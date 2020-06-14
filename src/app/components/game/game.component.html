@@ -3,7 +3,7 @@
 </pnp-menu-bar>
 <ng-container *ngIf="game$ | async as game; else loading">
     <ng-container *ngIf="viewBox$ | async as viewBox">
-        <ng-container *ngIf="edgeStrokes$ | async as edgeStrokes">
+        <ng-container *ngIf="edgeStrokes$ | async as edgeStyles">
             <svg
                     [attr.viewBox]="'0 0 ' + viewBox.width + ' ' + viewBox.height"
             >
@@ -36,11 +36,20 @@
                             [attr.y1]="scalePosition(edge.source.y)"
                             [attr.x2]="scalePosition(edge.target.x)"
                             [attr.y2]="scalePosition(edge.target.y)"
-                            [attr.stroke]="(edge.owner) ? edge.owner.color : edgeStrokes[i]"
+                            [attr.stroke]="'#ccc'"
+                    ></line>
+                    <line
+                            stroke-width="2"
+                            [attr.x1]="scalePosition(edge.source.x)"
+                            [attr.y1]="scalePosition(edge.source.y)"
+                            [attr.x2]="scalePosition(edge.target.x)"
+                            [attr.y2]="scalePosition(edge.target.y)"
+                            [ngClass]="{'last-move': wasRecentlyDrawn(edge, game)}"
+                            [attr.stroke]="(edge.owner) ? edge.owner.color : edgeStyles[i].stroke"
                             [attr.id]="'edge-' + edge.source.x + '-' + edge.source.y + '-' + edge.target.x + '-' + edge.target.x"
                             (click)="drawEdge(edge, game)"
-                            (mouseover)="edgeStrokes[i] = currentPlayer(game).color"
-                            (mouseout)="edgeStrokes[i] = defaultEdgeStroke"
+                            (mouseover)="edgeStyles[i] = {stroke: currentPlayer(game).color}"
+                            (mouseout)="edgeStyles[i] = {stroke: defaultEdgeStroke}"
                     ></line>
                 </g>
                 <g *ngFor="let vertex of game.graph.vertices">

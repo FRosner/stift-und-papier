@@ -9,6 +9,7 @@ import {map, switchMap} from 'rxjs/operators';
 import {Game} from '@src/app/models/game';
 import {UserStateType} from '@src/app/models/user-state';
 import {ActivatedRoute} from '@angular/router';
+import {EdgeStyle} from '@src/app/models/edge-style';
 
 @Component({
   selector: 'pnp-game',
@@ -36,8 +37,11 @@ export class GameComponent implements OnInit, OnDestroy {
       ),
   );
   defaultEdgeStroke = '#ccc';
+  defaultEdgeDashArray = 2000;
   edgeStrokes$ = this.game$.pipe(
-      map(game => game.graph.edges.map(() => this.defaultEdgeStroke)),
+      map(game => game.graph.edges.map(() => (<EdgeStyle>{
+        stroke: this.defaultEdgeStroke,
+      }))),
   );
 
   userState = UserStateType;
@@ -62,6 +66,9 @@ export class GameComponent implements OnInit, OnDestroy {
       } else {
         this.nextPlayer(game);
       }
+      if (Array.isArray(game.moves)) {
+        game.moves.push(edge);
+      }
       edge.owner = player;
       this.gameService.setGame(game);
     }
@@ -72,6 +79,15 @@ export class GameComponent implements OnInit, OnDestroy {
       game.currentPlayerIdx = 0;
     } else {
       game.currentPlayerIdx++;
+    }
+  }
+
+  wasRecentlyDrawn(edge: Edge, game: Game): boolean {
+    if (Array.isArray(game.moves) && game.moves.length > 0) {
+      const lastMove = game.moves[game.moves.length - 1];
+      return Edge.hasSameCoordinates(edge, lastMove);
+    } else {
+      return false;
     }
   }
 

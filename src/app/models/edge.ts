@@ -8,11 +8,15 @@ export interface Edge {
 }
 
 export const Edge = {
-  initialize: (source: Vertex, target: Vertex) => <Edge>{
-    source: source,
-    target: target,
-    owner: null,
-  },
+      initialize: (source: Vertex, target: Vertex) => <Edge>{
+        source: source,
+        target: target,
+        owner: null,
+      },
 
-  isOwned: (edge: Edge) => edge.owner !== null,
-};
+      isOwned: (edge: Edge) => edge.owner !== null,
+
+      hasSameCoordinates: (edgeA: Edge, edgeB: Edge) =>
+          edgeA.source.id === edgeB.source.id && edgeA.target.id === edgeB.target.id,
+    }
+;
