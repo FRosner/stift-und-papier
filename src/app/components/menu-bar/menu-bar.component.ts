@@ -3,7 +3,7 @@ import {faBars, faHome, faSync} from '@fortawesome/free-solid-svg-icons';
 import {GameService} from '@src/app/services/game.service';
 import {AuthService} from '@src/app/services/auth.service';
 import {filter, map} from 'rxjs/operators';
-import {isLoggedIn} from '@src/app/models/user-state';
+import {isLoggedIn, UserStateType} from '@src/app/models/user-state';
 
 @Component({
   selector: 'pnp-menu-bar',
@@ -18,17 +18,18 @@ export class MenuBarComponent implements OnInit {
   faBars = faBars;
   faHome = faHome;
   faSync = faSync;
+  userState = UserStateType;
 
   constructor(
-    private gameService: GameService,
-    private authService: AuthService,
+      private gameService: GameService,
+      private authService: AuthService,
   ) {
   }
 
   async resetGame(): Promise<void> {
     return await this.authService.currentUser$.pipe(
-      filter(isLoggedIn),
-      map(loggedIn => this.gameService.resetGame(loggedIn.user.uid)),
+        filter(isLoggedIn),
+        map(loggedIn => this.gameService.resetGame(loggedIn.user.uid)),
     ).toPromise();
   }
 

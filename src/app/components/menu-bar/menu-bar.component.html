@@ -1,6 +1,25 @@
 <mat-toolbar color="primary">
     <span>{{ title }}</span>
 
+    <ng-container *ngIf="authService.currentUser$ | async as currentUser">
+        <span
+                class="avatar-container"
+                [ngSwitch]="currentUser.type"
+        >
+            <img *ngSwitchCase="userState.LOGGED_IN"
+                 class="avatar"
+                 [src]="currentUser.user.photoURL"
+            />
+            <mat-progress-spinner
+                    *ngSwitchCase="userState.LOADING"
+                    diameter="32"
+                    color="accent"
+                    mode="indeterminate"
+            >
+            </mat-progress-spinner>
+        </span>
+    </ng-container>
+
     <span class="fill-horizontal"></span>
 
     <button mat-icon-button [matMenuTriggerFor]="appMenu">

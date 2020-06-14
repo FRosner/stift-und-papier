@@ -7,3 +7,16 @@
 .menu-icon {
     margin-right: 0.5em;
 }
+
+.avatar, .avatar-container {
+    height: 32px;
+    width: 32px;
+}
+
+.avatar-container {
+    margin-left: 1em;
+}
+
+.avatar {
+    border-radius: 50%;
+}
