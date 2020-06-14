@@ -1,6 +1,8 @@
 <mat-toolbar color="primary">
     <span>{{ title }}</span>
 
+    <mat-divider vertical></mat-divider>
+
     <ng-container *ngIf="authService.currentUser$ | async as currentUser">
         <span
                 class="avatar-container"

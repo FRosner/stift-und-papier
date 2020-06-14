@@ -13,10 +13,13 @@
     width: 32px;
 }
 
-.avatar-container {
-    margin-left: 1em;
-}
-
 .avatar {
     border-radius: 50%;
+}
+
+mat-divider {
+    height: 32px;
+    border-right-color: rgba(255, 255, 255, .5);
+    margin-left: 1em;
+    margin-right: 1em;
 }

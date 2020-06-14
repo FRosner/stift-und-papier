@@ -13,6 +13,7 @@ import {
   MatButtonModule,
   MatButtonToggleModule,
   MatCardModule,
+  MatDividerModule,
   MatMenuModule,
   MatProgressSpinnerModule,
   MatToolbarModule
@@ -52,6 +53,7 @@ const firebaseConfig = {
     MatButtonToggleModule,
     MatButtonModule,
     MatToolbarModule,
+    MatDividerModule,
     MatMenuModule,
     BrowserAnimationsModule,
     FontAwesomeModule,
