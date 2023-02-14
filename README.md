@@ -6,7 +6,7 @@
 
 ## Description
 
-Want to join for a game, fam?
+Want to join for a game, fam? https://stift-und-papier.web.app/
 
 ## Development
 
